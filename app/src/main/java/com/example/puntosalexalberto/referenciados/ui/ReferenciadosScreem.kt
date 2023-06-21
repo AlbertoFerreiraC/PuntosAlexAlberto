@@ -13,6 +13,7 @@ import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.DrawerState
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -57,7 +58,7 @@ import kotlinx.coroutines.launch
 fun ReferenciadosScreem() {
     val navController = rememberNavController()
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
-    val coroutineScope = rememberCoroutineScope()
+
 
     ModalNavigationDrawer(
         drawerContent = { DrawerContent(navController, drawerState) },
@@ -66,32 +67,7 @@ fun ReferenciadosScreem() {
     ) {
         Scaffold(
             topBar = {
-                TopAppBar(title = {
-                    Text(
-                        "PUNTOS ALEX", color = colorResource(id = R.color.white)
-                    )
-                },
-                    colors = TopAppBarDefaults.smallTopAppBarColors(containerColor = Color.Red),
-                    navigationIcon = {
-                        IconButton(onClick = {
-                            if (drawerState.isClosed) {
-                                coroutineScope.launch {
-                                    drawerState.open()
-                                }
-                            } else {
-                                coroutineScope.launch {
-                                    drawerState.close()
-                                }
-                            }
-
-                        }) {
-                            Icon(
-                                Icons.Filled.Menu,
-                                contentDescription = "PUNTOS ALEX",
-                                tint = Color.White
-                            )
-                        }
-                    })
+                toolbar(drawerState = drawerState)
             }) {
 
             NavHost(navController = navController, startDestination = "ReferidosScreem") {
@@ -291,4 +267,38 @@ fun ReferenciadosScreem() {
         }
     }
 
+}
+
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun toolbar(drawerState:DrawerState){
+    val coroutineScope = rememberCoroutineScope()
+
+    TopAppBar(title = {
+        Text(
+            "PUNTOS ALEX", color = colorResource(id = R.color.white)
+        )
+    },
+        colors = TopAppBarDefaults.smallTopAppBarColors(containerColor = Color.Red),
+        navigationIcon = {
+            IconButton(onClick = {
+                if (drawerState.isClosed) {
+                    coroutineScope.launch {
+                        drawerState.open()
+                    }
+                } else {
+                    coroutineScope.launch {
+                        drawerState.close()
+                    }
+                }
+
+            }) {
+                Icon(
+                    Icons.Filled.Menu,
+                    contentDescription = "PUNTOS ALEX",
+                    tint = Color.White
+                )
+            }
+        })
 }
