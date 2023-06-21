@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">PuntosAlexAlberto</string>
+    <string name="title_activity_referidos1">Referidos1Activity</string>
+    <string name="title_activity_referidos">ReferidosActivity</string>
+    <string name="title_activity_referidos_screem">ReferidosScreem</string>
+    <string name="title_activity_promos_screem">PromosScreem</string>
+    <string name="Referidos">Screen_1</string>
+    <string name="Catálogo_Alex">Screen_2</string>
+    <string name="Cerrar_Sesión">Screen_3</string>
+    <string name="title_activity_menu_test">MenuTest</string>
+</resources>
