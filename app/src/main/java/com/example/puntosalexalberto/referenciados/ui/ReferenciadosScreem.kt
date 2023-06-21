@@ -1,4 +1,5 @@
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -48,8 +49,15 @@ import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.puntosalexalberto.Componentes.DrawerContent
+import com.example.puntosalexalberto.Componentes.DrawerHeader
 import com.example.puntosalexalberto.R
+import com.example.puntosalexalberto.login.ui.LoginScreem
+import com.example.puntosalexalberto.promos.ui.PromosScreem
+import com.example.puntosalexalberto.referidos.ui.ReferidosScreem
 import kotlinx.coroutines.launch
 
 
@@ -81,15 +89,14 @@ fun MenuDrawer(
 @Composable
 fun ReferenciadosScreem() {
     val selectedMenuItem = remember { mutableStateOf("") }
-    //val scaffoldState = rememberScaffoldState()
-    //val coroutineScope = rememberCoroutineScope()
-
     val navController = rememberNavController()
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val coroutineScope = rememberCoroutineScope()
-
-    ModalNavigationDrawer(drawerContent = {}, drawerState = drawerState, scrimColor = Color.Red) {
-
+    ModalNavigationDrawer(
+        drawerContent = { DrawerContent(navController, drawerState) },
+        drawerState = drawerState,
+        scrimColor = Color.White
+    ) {
         Scaffold(
             topBar = {
                 TopAppBar(title = {
@@ -100,11 +107,11 @@ fun ReferenciadosScreem() {
                     colors = TopAppBarDefaults.smallTopAppBarColors(containerColor = Color.Red),
                     navigationIcon = {
                         IconButton(onClick = {
-                            if (drawerState.isClosed){
-                               coroutineScope.launch {
-                                   drawerState.open()
-                               }
-                            }else{
+                            if (drawerState.isClosed) {
+                                coroutineScope.launch {
+                                    drawerState.open()
+                                }
+                            } else {
                                 coroutineScope.launch {
                                     drawerState.close()
                                 }
@@ -116,12 +123,21 @@ fun ReferenciadosScreem() {
                                 contentDescription = "PUNTOS ALEX",
                                 tint = Color.White
                             )
-                            /*MenuDrawer(onItemSelected = { selectedItem ->
-                                selectedMenuItem.value = selectedItem
-                            })*/
                         }
                     })
             }) {
+            NavHost(navController = navController, startDestination = "ReferidosScreem") {
+                composable("ReferidosScreem") {
+                    ReferidosScreem()
+                }
+                composable("CatalogoScreem") {
+                    PromosScreem()
+                }
+                composable("SettingPage") {
+                    LoginScreem()
+                }
+
+            }
             // Agregar el padding
             Column(
                 modifier = Modifier.padding(it)
