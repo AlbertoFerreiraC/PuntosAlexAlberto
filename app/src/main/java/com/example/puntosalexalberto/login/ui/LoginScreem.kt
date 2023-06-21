@@ -1,6 +1,5 @@
 package com.example.puntosalexalberto.login.ui
 
-import ReferenciadosScreem
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -38,11 +37,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.puntosalexalberto.R
-import com.example.puntosalexalberto.referenciados.ui.ReferenciadosActivity
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Preview
@@ -123,7 +119,7 @@ fun LoginScreem() {
                 Spacer(modifier = Modifier.height(30.dp))
                 //boton de ingresar
                 Button(
-                    onClick = { navController.navigate("ReferenciadosScreem") },
+                    onClick = { navController.navigate("com.example.puntosalexalberto.referenciados.ui.ReferenciadosScreem") },
                     colors = ButtonDefaults.buttonColors(
                         containerColor = Color.Red,
                         contentColor = Color.White

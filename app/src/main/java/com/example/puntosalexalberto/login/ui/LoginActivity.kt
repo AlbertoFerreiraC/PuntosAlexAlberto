@@ -1,6 +1,6 @@
 package com.example.puntosalexalberto.login.ui
 
-import ReferenciadosScreem
+import com.example.puntosalexalberto.referenciados.ui.ReferenciadosScreem
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent

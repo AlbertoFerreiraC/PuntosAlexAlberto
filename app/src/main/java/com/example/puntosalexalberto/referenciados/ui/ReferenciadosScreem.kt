@@ -1,24 +1,19 @@
+package com.example.puntosalexalberto.referenciados.ui
+
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Email
-import androidx.compose.material.icons.filled.Face
-import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.DrawerValue
-import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuBox
@@ -26,10 +21,7 @@ import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.ModalDrawerSheet
 import androidx.compose.material3.ModalNavigationDrawer
-import androidx.compose.material3.NavigationDrawerItem
-import androidx.compose.material3.NavigationDrawerItemDefaults
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -53,49 +45,24 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.puntosalexalberto.Componentes.DrawerContent
-import com.example.puntosalexalberto.Componentes.DrawerHeader
 import com.example.puntosalexalberto.R
 import com.example.puntosalexalberto.login.ui.LoginScreem
 import com.example.puntosalexalberto.promos.ui.PromosScreem
 import com.example.puntosalexalberto.referidos.ui.ReferidosScreem
 import kotlinx.coroutines.launch
 
-
-@Composable
-fun MenuDrawer(
-    onItemSelected: (String) -> Unit
-) {
-    var selectedMenuItem by remember { mutableStateOf("") }
-    var expanded by remember { mutableStateOf(false) }
-    val menuItems = listOf(
-        "Referidos", "Catálogo Alex", "Cerrar sesión"
-    )
-
-    DropdownMenu(expanded = expanded, onDismissRequest = { expanded = false }) {
-        menuItems.forEach { menu ->
-            DropdownMenuItem({
-                Text(text = menu)
-            }, onClick = {
-                selectedMenuItem = menu
-                expanded = false
-                onItemSelected(selectedMenuItem)
-            })
-        }
-    }
-}
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Preview
 @Composable
 fun ReferenciadosScreem() {
-    val selectedMenuItem = remember { mutableStateOf("") }
     val navController = rememberNavController()
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val coroutineScope = rememberCoroutineScope()
+
     ModalNavigationDrawer(
         drawerContent = { DrawerContent(navController, drawerState) },
         drawerState = drawerState,
-        scrimColor = Color.White
+        scrimColor = Color.Transparent,
     ) {
         Scaffold(
             topBar = {
@@ -126,6 +93,7 @@ fun ReferenciadosScreem() {
                         }
                     })
             }) {
+
             NavHost(navController = navController, startDestination = "ReferidosScreem") {
                 composable("ReferidosScreem") {
                     ReferidosScreem()
@@ -138,6 +106,7 @@ fun ReferenciadosScreem() {
                 }
 
             }
+
             // Agregar el padding
             Column(
                 modifier = Modifier.padding(it)

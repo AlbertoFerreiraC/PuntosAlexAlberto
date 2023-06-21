@@ -1,5 +1,6 @@
 package com.example.puntosalexalberto.Componentes
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Divider
 import androidx.compose.material3.DrawerState
@@ -17,11 +18,11 @@ import androidx.navigation.NavHostController
 @Composable
 fun DrawerContent(navController: NavHostController, drawerState: DrawerState) {
 
-
     Column(
         modifier = Modifier
-            .fillMaxSize()
-            .padding(20.dp),
+            .fillMaxWidth()
+            .padding(end = 50.dp)
+            .background(Color.White),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
 
@@ -29,7 +30,7 @@ fun DrawerContent(navController: NavHostController, drawerState: DrawerState) {
         Spacer(modifier = Modifier.height(10.dp))
         Divider(color = Color.LightGray)
         Spacer(modifier = Modifier.height(10.dp))
-        NavigationDrawerItems(navController,drawerState)
+        NavigationDrawerItems(navController, drawerState)
         Spacer(modifier = Modifier.weight(1f))
 
 
