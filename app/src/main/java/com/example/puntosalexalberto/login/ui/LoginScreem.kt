@@ -43,7 +43,6 @@ import androidx.navigation.compose.rememberNavController
 import com.example.puntosalexalberto.R
 import com.example.puntosalexalberto.referenciados.ui.ReferenciadosActivity
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Preview
 @Composable
 fun LoginScreem() {

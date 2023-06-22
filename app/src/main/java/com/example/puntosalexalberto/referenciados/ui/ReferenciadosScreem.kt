@@ -70,17 +70,19 @@ fun ReferenciadosScreem() {
                 toolbar(drawerState = drawerState)
             }) {
 
-            NavHost(navController = navController, startDestination = "ReferidosScreem") {
-                composable("ReferidosScreem") {
+            NavHost(
+                navController = navController,
+                startDestination = "LoginScreem"
+            ) {
+                composable("ReferidosScreen") {
                     ReferidosScreem()
                 }
-                composable("CatalogoScreem") {
+                composable("CatalogoScreen") {
                     PromosScreem()
                 }
-                composable("LogginScreem") {
+                composable("LoginScreen") {
                     LoginScreem()
                 }
-
             }
 
             // Agregar el padding
@@ -108,7 +110,7 @@ fun ReferenciadosScreem() {
                             //componenet de nro documento
                             OtlineNroDoc()
 
-                            //componenet de Nombrre
+                            //componenet de Nombre
                             OutlineNombre()
 
                             //componenet de Apellido
