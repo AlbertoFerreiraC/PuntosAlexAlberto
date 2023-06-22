@@ -28,38 +28,52 @@ import com.example.puntosalexalberto.R
 @Composable
 fun ReferidosScreem() {
     Scaffold(topBar = {
-        TopAppBar(title = { Text("REFERIDOS", color = colorResource(id = R.color.white)) },
-            colors = TopAppBarDefaults.smallTopAppBarColors(containerColor = Color.Red),
-            navigationIcon = {
-                IconButton(onClick = { }) {
-                    Icon(
-                        Icons.Filled.ArrowBack,
-                        contentDescription = "REFERIDOS",
-                        tint = Color.White
-                    )
-                }
-            })
-    }) {
-        // Agregar el padding
+
+        ToolReferidos()
+
+    }) {// Agregar el padding
         Column(
             modifier = Modifier.padding(it)
         ) {
-            LazyRow(
-                horizontalArrangement = Arrangement.SpaceBetween,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(16.dp) //fillMaxWidth que maximise tamaño. Padding para que no este pégado al borde
 
-            ) {
-                item {
-                    Text(
-                        text = "VIGENTE ", color = Color.Black, fontSize = 20.sp
-                    )
-                    Text(
-                        text = "HISTORICO", color = Color.Black, fontSize = 20.sp
-                    )
-                }
+            Items()
+
+        }
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun ToolReferidos() {
+    TopAppBar(title = { Text("REFERIDOS", color = colorResource(id = R.color.white)) },
+        colors = TopAppBarDefaults.smallTopAppBarColors(containerColor = Color.Red),
+        navigationIcon = {
+            IconButton(onClick = { }) {
+                Icon(
+                    Icons.Filled.ArrowBack,
+                    contentDescription = "REFERIDOS",
+                    tint = Color.White
+                )
             }
+        })
+}
+
+@Composable
+private fun Items() {
+    LazyRow(
+        horizontalArrangement = Arrangement.SpaceBetween,
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(16.dp) //fillMaxWidth que maximise tamaño. Padding para que no este pégado al borde
+
+    ) {
+        item {
+            Text(
+                text = "VIGENTE ", color = Color.Black, fontSize = 20.sp
+            )
+            Text(
+                text = "HISTORICO", color = Color.Black, fontSize = 20.sp
+            )
         }
     }
 }

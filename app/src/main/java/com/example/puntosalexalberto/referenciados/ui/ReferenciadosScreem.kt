@@ -1,24 +1,20 @@
+package com.example.puntosalexalberto.referenciados.ui
+
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Email
-import androidx.compose.material.icons.filled.Face
-import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.DrawerState
 import androidx.compose.material3.DrawerValue
-import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuBox
@@ -26,10 +22,7 @@ import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.ModalDrawerSheet
 import androidx.compose.material3.ModalNavigationDrawer
-import androidx.compose.material3.NavigationDrawerItem
-import androidx.compose.material3.NavigationDrawerItemDefaults
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -53,79 +46,30 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.puntosalexalberto.Componentes.DrawerContent
-import com.example.puntosalexalberto.Componentes.DrawerHeader
 import com.example.puntosalexalberto.R
 import com.example.puntosalexalberto.login.ui.LoginScreem
 import com.example.puntosalexalberto.promos.ui.PromosScreem
 import com.example.puntosalexalberto.referidos.ui.ReferidosScreem
 import kotlinx.coroutines.launch
 
-
-@Composable
-fun MenuDrawer(
-    onItemSelected: (String) -> Unit
-) {
-    var selectedMenuItem by remember { mutableStateOf("") }
-    var expanded by remember { mutableStateOf(false) }
-    val menuItems = listOf(
-        "Referidos", "Catálogo Alex", "Cerrar sesión"
-    )
-
-    DropdownMenu(expanded = expanded, onDismissRequest = { expanded = false }) {
-        menuItems.forEach { menu ->
-            DropdownMenuItem({
-                Text(text = menu)
-            }, onClick = {
-                selectedMenuItem = menu
-                expanded = false
-                onItemSelected(selectedMenuItem)
-            })
-        }
-    }
-}
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Preview
 @Composable
 fun ReferenciadosScreem() {
-    val selectedMenuItem = remember { mutableStateOf("") }
     val navController = rememberNavController()
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
-    val coroutineScope = rememberCoroutineScope()
+
+
     ModalNavigationDrawer(
         drawerContent = { DrawerContent(navController, drawerState) },
         drawerState = drawerState,
-        scrimColor = Color.White
+        scrimColor = Color.Transparent,
     ) {
         Scaffold(
             topBar = {
-                TopAppBar(title = {
-                    Text(
-                        "PUNTOS ALEX", color = colorResource(id = R.color.white)
-                    )
-                },
-                    colors = TopAppBarDefaults.smallTopAppBarColors(containerColor = Color.Red),
-                    navigationIcon = {
-                        IconButton(onClick = {
-                            if (drawerState.isClosed) {
-                                coroutineScope.launch {
-                                    drawerState.open()
-                                }
-                            } else {
-                                coroutineScope.launch {
-                                    drawerState.close()
-                                }
-                            }
-
-                        }) {
-                            Icon(
-                                Icons.Filled.Menu,
-                                contentDescription = "PUNTOS ALEX",
-                                tint = Color.White
-                            )
-                        }
-                    })
+                toolbar(drawerState = drawerState)
             }) {
+
             NavHost(navController = navController, startDestination = "ReferidosScreem") {
                 composable("ReferidosScreem") {
                     ReferidosScreem()
@@ -133,50 +77,17 @@ fun ReferenciadosScreem() {
                 composable("CatalogoScreem") {
                     PromosScreem()
                 }
-                composable("SettingPage") {
+                composable("LogginScreem") {
                     LoginScreem()
                 }
 
             }
+
             // Agregar el padding
             Column(
                 modifier = Modifier.padding(it)
             ) {
-                var ExpContac by remember {
-                    mutableStateOf(false)
-                }
-                var ExpHora by remember {
-                    mutableStateOf(false)
-                }
-                var articulo by remember {
-                    mutableStateOf("")
-                }
-                var nroDoc by remember {
-                    mutableStateOf("")
-                }
-                var nombre by remember {
-                    mutableStateOf("")
-                }
-                var apellido by remember {
-                    mutableStateOf("")
-                }
-                var cel by remember {
-                    mutableStateOf("")
-                }
                 // Para el spinner
-                val contacto = listOf("WhatsApp", "Llamada")
-
-                var expanded by remember { mutableStateOf(false) }
-                var selectedOptionText by remember { mutableStateOf("") }
-                val iconCon = if (ExpContac) Icons.Filled.KeyboardArrowUp
-                else Icons.Filled.KeyboardArrowDown
-
-                val horario = (listOf("Indistinto", "Mañana", "Tarde", "Noche"))
-
-                var expHora by remember { mutableStateOf(false) }
-                var selectedhorarioText by remember { mutableStateOf(horario[0]) }
-                val iconHora = if (ExpHora) Icons.Filled.KeyboardArrowUp
-                else Icons.Filled.KeyboardArrowDown
 
                 MaterialTheme() {
                     Column(
@@ -191,130 +102,29 @@ fun ReferenciadosScreem() {
                                 .background(Color.White)
                                 .verticalScroll(rememberScrollState()) // Alternativa para no usar un LazyColumn
                         ) {
-                            OutlinedTextField(value = articulo,
-                                onValueChange = { nextText ->
-                                    articulo = nextText
-                                },
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(horizontal = 10.dp),
-                                label = {
-                                    Text(text = "Articulo de Interés")
-                                })
-                            OutlinedTextField(value = nroDoc,
-                                onValueChange = { nextText ->
-                                    nroDoc = nextText
-                                },
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(horizontal = 10.dp),
-                                label = {
-                                    Text(text = "Nro. Documento (Opcional)")
-                                })
-                            OutlinedTextField(value = nombre,
-                                onValueChange = { nextText ->
-                                    nombre = nextText
-                                },
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(horizontal = 10.dp),
-                                label = {
-                                    Text(text = "Nombres")
-                                })
-                            OutlinedTextField(value = apellido,
-                                onValueChange = { nextText ->
-                                    apellido = nextText
-                                },
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(horizontal = 10.dp),
-                                label = {
-                                    Text(text = "Apellidos")
-                                })
-                            OutlinedTextField(value = cel,
-                                onValueChange = { nextText ->
-                                    cel = nextText
-                                },
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(horizontal = 10.dp),
-                                label = {
-                                    Text(text = "Celular")
-                                })
+                            //componenet de articulo
+                            OutlineArticulos()
 
-                            //Contacto
-                            ExposedDropdownMenuBox(expanded = ExpContac, onExpandedChange = {
-                                expanded = !expanded
-                            }) {
-                                OutlinedTextField(value = selectedOptionText,
-                                    onValueChange = {},
-                                    readOnly = true,
-                                    modifier = Modifier
-                                        .menuAnchor()
-                                        .fillMaxWidth()
-                                        .padding(horizontal = 10.dp),
-                                    label = { Text("Formato de Contacto") },
-                                    trailingIcon = {
-                                        ExposedDropdownMenuDefaults.TrailingIcon(
-                                            expanded = expanded
-                                        )
-                                    })
-                                ExposedDropdownMenu(expanded = expanded, onDismissRequest = {
-                                    expanded = !expanded
-                                }) {
-                                    contacto.forEach { con ->
-                                        DropdownMenuItem(text = {
-                                            Text(text = con, color = Color.Black)
-                                        }, onClick = {
-                                            selectedOptionText = con
-                                            expanded = false
-                                        })
-                                    }
-                                }
-                            }
-                            //horario
-                            ExposedDropdownMenuBox(expanded = expHora, onExpandedChange = {
-                                expHora = !expHora
-                            }) {
-                                OutlinedTextField(value = selectedhorarioText,
-                                    onValueChange = {},
-                                    readOnly = true,
-                                    modifier = Modifier
-                                        .menuAnchor()
-                                        .fillMaxWidth()
-                                        .padding(horizontal = 10.dp),
-                                    label = { Text("Horario Disponible") },
-                                    trailingIcon = {
-                                        ExposedDropdownMenuDefaults.TrailingIcon(
-                                            expanded = expHora
-                                        )
-                                    })
-                                ExposedDropdownMenu(expanded = expHora, onDismissRequest = {
-                                    expHora = !expHora
-                                }) {
-                                    horario.forEach { hora ->
-                                        DropdownMenuItem(text = {
-                                            Text(text = hora, color = Color.Black)
-                                        }, onClick = {
-                                            selectedhorarioText = hora
-                                            expHora = false
-                                        })
-                                    }
-                                }
-                            }
-                            Button(
-                                onClick = { },
-                                colors = ButtonDefaults.buttonColors(
-                                    containerColor = Color.Red, contentColor = Color.White
-                                ),
-                                shape = RectangleShape,
-                                elevation = ButtonDefaults.buttonElevation(10.dp), // Para sombreado
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(horizontal = 10.dp)
-                            ) {
-                                Text(text = "ENVIAR")
-                            }
+                            //componenet de nro documento
+                            OtlineNroDoc()
+
+                            //componenet de Nombrre
+                            OutlineNombre()
+
+                            //componenet de Apellido
+                            OutlineApellido()
+
+                            //componenet de Celular
+                            OutlineCel()
+
+                            //Componente de forma de contacto
+                            SpinnerFormaCon()
+
+                            //Componente de horario disponible
+                            SpineerHorario()
+
+                            //Componente de boton enviar
+                            ButtonEnviar()
                         }
                     }
                 }
@@ -322,4 +132,230 @@ fun ReferenciadosScreem() {
         }
     }
 
+}
+
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun toolbar(drawerState: DrawerState) {
+    val coroutineScope = rememberCoroutineScope()
+
+    TopAppBar(title = {
+        Text(
+            "PUNTOS ALEX", color = colorResource(id = R.color.white)
+        )
+    },
+        colors = TopAppBarDefaults.smallTopAppBarColors(containerColor = Color.Red),
+        navigationIcon = {
+            IconButton(onClick = {
+                if (drawerState.isClosed) {
+                    coroutineScope.launch {
+                        drawerState.open()
+                    }
+                } else {
+                    coroutineScope.launch {
+                        drawerState.close()
+                    }
+                }
+
+            }) {
+                Icon(
+                    Icons.Filled.Menu,
+                    contentDescription = "PUNTOS ALEX",
+                    tint = Color.White
+                )
+            }
+        })
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun OutlineArticulos() {
+    var articulo by remember {
+        mutableStateOf("")
+    }
+    OutlinedTextField(
+        value = articulo,
+        onValueChange = { nextText ->
+            articulo = nextText
+        },
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 10.dp),
+        label = {
+            Text(text = "Articulo de Interés")
+        })
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun OtlineNroDoc() {
+    var nroDoc by remember {
+        mutableStateOf("")
+    }
+    OutlinedTextField(value = nroDoc,
+        onValueChange = { nextText ->
+            nroDoc = nextText
+        },
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 10.dp),
+        label = {
+            Text(text = "Nro. Documento (Opcional)")
+        })
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun OutlineNombre() {
+    var nombre by remember {
+        mutableStateOf("")
+    }
+    OutlinedTextField(value = nombre,
+        onValueChange = { nextText ->
+            nombre = nextText
+        },
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 10.dp),
+        label = {
+            Text(text = "Nombres")
+        })
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun OutlineApellido() {
+    var apellido by remember {
+        mutableStateOf("")
+    }
+    OutlinedTextField(value = apellido,
+        onValueChange = { nextText ->
+            apellido = nextText
+        },
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 10.dp),
+        label = {
+            Text(text = "Apellidos")
+        })
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun OutlineCel() {
+    var cel by remember {
+        mutableStateOf("")
+    }
+    OutlinedTextField(value = cel,
+        onValueChange = { nextText ->
+            cel = nextText
+        },
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 10.dp),
+        label = {
+            Text(text = "Celular")
+        })
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun SpinnerFormaCon() {
+    var ExpContac by remember {
+        mutableStateOf(false)
+    }
+    var expanded by remember { mutableStateOf(false) }
+    var selectedOptionText by remember { mutableStateOf("") }
+    val iconCon = if (ExpContac) Icons.Filled.KeyboardArrowUp
+    else Icons.Filled.KeyboardArrowDown
+    val contacto = listOf("WhatsApp", "Llamada")
+    ExposedDropdownMenuBox(expanded = ExpContac, onExpandedChange = {
+        expanded = !expanded
+    }) {
+        OutlinedTextField(value = selectedOptionText,
+            onValueChange = {},
+            readOnly = true,
+            modifier = Modifier
+                .menuAnchor()
+                .fillMaxWidth()
+                .padding(horizontal = 10.dp),
+            label = { Text("Formato de Contacto") },
+            trailingIcon = {
+                ExposedDropdownMenuDefaults.TrailingIcon(
+                    expanded = expanded
+                )
+            })
+        ExposedDropdownMenu(expanded = expanded, onDismissRequest = {
+            expanded = !expanded
+        }) {
+            contacto.forEach { con ->
+                DropdownMenuItem(text = {
+                    Text(text = con, color = Color.Black)
+                }, onClick = {
+                    selectedOptionText = con
+                    expanded = false
+                })
+            }
+        }
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun SpineerHorario() {
+    var ExpHora by remember { mutableStateOf(false) }
+    val horario = (listOf("Indistinto", "Mañana", "Tarde", "Noche"))
+
+    var expHora by remember { mutableStateOf(false) }
+    var selectedhorarioText by remember { mutableStateOf(horario[0]) }
+    val iconHora = if (ExpHora) Icons.Filled.KeyboardArrowUp
+    else Icons.Filled.KeyboardArrowDown
+
+    ExposedDropdownMenuBox(expanded = expHora, onExpandedChange = {
+        expHora = !expHora
+    }) {
+        OutlinedTextField(value = selectedhorarioText,
+            onValueChange = {},
+            readOnly = true,
+            modifier = Modifier
+                .menuAnchor()
+                .fillMaxWidth()
+                .padding(horizontal = 10.dp),
+            label = { Text("Horario Disponible") },
+            trailingIcon = {
+                ExposedDropdownMenuDefaults.TrailingIcon(
+                    expanded = expHora
+                )
+            })
+        ExposedDropdownMenu(expanded = expHora, onDismissRequest = {
+            expHora = !expHora
+        }) {
+            horario.forEach { hora ->
+                DropdownMenuItem(text = {
+                    Text(text = hora, color = Color.Black)
+                }, onClick = {
+                    selectedhorarioText = hora
+                    expHora = false
+                })
+            }
+        }
+    }
+}
+
+@Composable
+private fun ButtonEnviar() {
+    Button(
+        onClick = { },
+        colors = ButtonDefaults.buttonColors(
+            containerColor = Color.Red, contentColor = Color.White
+        ),
+        shape = RectangleShape,
+        elevation = ButtonDefaults.buttonElevation(10.dp), // Para sombreado
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 10.dp)
+    ) {
+        Text(text = "ENVIAR")
+    }
 }

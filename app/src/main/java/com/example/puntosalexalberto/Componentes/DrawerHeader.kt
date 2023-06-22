@@ -1,6 +1,7 @@
 package com.example.puntosalexalberto.Componentes
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.R
@@ -14,6 +15,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -30,6 +32,7 @@ fun DrawerHeader() {
     Column(
         modifier = Modifier
             .fillMaxWidth()
+            .background(brush = Brush.horizontalGradient(colors = listOf(Color(0xFFFFFFFF),Color(0xFFe62e38))))
     ) {
 
         Image(

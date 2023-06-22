@@ -37,7 +37,7 @@ fun NavigationDrawerItems(navController: NavHostController, drawerState: DrawerS
         label = { Text(text = "Referidos") },
         selected = destination?.route == "ReferidosScreem",
         onClick = {
-            navController.navigate("HomePage", navOptions {
+            navController.navigate("ReferidosScreem", navOptions {
                 this.launchSingleTop = true
                 this.restoreState = true
 
@@ -53,10 +53,10 @@ fun NavigationDrawerItems(navController: NavHostController, drawerState: DrawerS
     NavigationDrawerItem(
         icon = { Icon(Icons.Filled.ShoppingCart, "Catálogo Alex") },
         label = { Text(text = "Catálogo Alex") },
-        selected = destination?.route == "AboutPage",
+        selected = destination?.route == "PromosScreem",
 
         onClick = {
-            navController.navigate("AboutPage", navOptions {
+            navController.navigate("PromosScreem", navOptions {
                 this.launchSingleTop = true
                 this.restoreState = true
 
@@ -74,9 +74,9 @@ fun NavigationDrawerItems(navController: NavHostController, drawerState: DrawerS
         icon = { Icon(Icons.Filled.Close, "Cerrar Sesión") },
 
         label = { Text(text = "Cerrar Sesión") },
-        selected = destination?.route == "SettingPage",
+        selected = destination?.route == "LoginScreem",
         onClick = {
-            navController.navigate("SettingPage", navOptions {
+            navController.navigate("LoginScreem", navOptions {
                 this.launchSingleTop = true
                 this.restoreState = true
             })

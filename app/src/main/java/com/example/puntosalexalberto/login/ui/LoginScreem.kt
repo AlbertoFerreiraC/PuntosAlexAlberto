@@ -1,6 +1,5 @@
 package com.example.puntosalexalberto.login.ui
 
-import ReferenciadosScreem
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -48,22 +47,6 @@ import com.example.puntosalexalberto.referenciados.ui.ReferenciadosActivity
 @Preview
 @Composable
 fun LoginScreem() {
-    var ci by remember {
-        mutableStateOf("")
-    }
-    var pasw by remember {
-        mutableStateOf("")
-    }
-    var paswVisible by remember {
-        mutableStateOf(false)
-    }
-
-    val icon = if (paswVisible) {
-        painterResource(id = R.drawable.desing_ic_visibility)
-    } else {
-        painterResource(id = R.drawable.desing_ic_visibilityoff)
-    }
-    val navController = rememberNavController()
     MaterialTheme {
         Column(
             modifier = Modifier
@@ -77,96 +60,150 @@ fun LoginScreem() {
                     .background(Color.White)
                     .verticalScroll(rememberScrollState()) //alternativa para no usar un LazyColumn
             ) {
-                Image(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(250.dp)
-                        .padding(vertical = 40.dp)
-                        .padding(horizontal = 10.dp),
-                    painter = painterResource(id = R.drawable.puntosalex),
-                    contentDescription = "Puntos Alex"
-                )
-                // Spacer(modifier = Modifier.height(10.dp))
+                ImageAlex()
+
                 //ingresar cedula
-                OutlinedTextField(value = ci, onValueChange = { nextText ->
-                    ci = nextText
-                },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 10.dp),
-                    label = { Text(text = "Cédula de identidad") })
+                OutlineCedula()
+
                 //ingresar contraseña
-                OutlinedTextField(
-                    value = pasw, onValueChange = { nextText ->
-                        pasw = nextText
-                    },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 10.dp),
-                    label = { Text(text = "Contraseña") },
-                    trailingIcon = {
-                        IconButton(onClick = {
-                            paswVisible = !paswVisible
-                        }) {
-                            Icon(
-                                painter = icon,
-                                contentDescription = "Ver contraseña"
-                            )
-                        }
-                    },
-                    keyboardOptions = KeyboardOptions(
-                        keyboardType = KeyboardType.Password
-                    ),
-                    visualTransformation = if (paswVisible) VisualTransformation.None
-                    else PasswordVisualTransformation()
-                )
+                OutlinePas()
+
                 Spacer(modifier = Modifier.height(30.dp))
+
                 //boton de ingresar
-                Button(
-                    onClick = { navController.navigate("ReferenciadosScreem") },
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = Color.Red,
-                        contentColor = Color.White
-                    ),
-                    shape = RectangleShape,
-                    elevation = ButtonDefaults
-                        .buttonElevation(10.dp),//para sombreado
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 10.dp)
-                ) {
-                    Text(text = "INGRESAR")
-                }
+                BotonIngresar()
+
                 Spacer(modifier = Modifier.height(3.dp))
+
                 //boton de registrarse
-                Button(
-                    onClick = { },
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = Color.White,
-                        contentColor = Color.Red
-                    ),
-                    shape = RectangleShape,
-                    elevation = ButtonDefaults
-                        .buttonElevation(10.dp),//para sombreado
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 10.dp)
-                ) {
-                    Text(text = "REGISTRARME")
-                }
+                BotonRegis()
+
                 Spacer(modifier = Modifier.height(40.dp))
+
                 //olvide mi contraseña
-                Text( //texto centrado en el medio de la pantalla
-                    text = "Olvidé mi contraseña",
-                    fontSize = 15.sp, //tamaño del texto
-                    //color = Color.Red, //color del texto
-                    color = colorResource(id = R.color.red),
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 10.dp), //ocupa el espacio con imagen
-                    textAlign = TextAlign.Center //alinea el texto
-                )
+                TextOlvide()
             }
         }
     }
+}
+
+@Composable
+private fun ImageAlex() {
+    Image(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(250.dp)
+            .padding(vertical = 40.dp)
+            .padding(horizontal = 10.dp),
+        painter = painterResource(id = R.drawable.puntosalex),
+        contentDescription = "Puntos Alex"
+    )
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun OutlineCedula() {
+    var ci by remember {
+        mutableStateOf("")
+    }
+    OutlinedTextField(value = ci, onValueChange = { nextText ->
+        ci = nextText
+    },
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 10.dp),
+        label = { Text(text = "Cédula de identidad") })
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun OutlinePas() {
+    var pasw by remember {
+        mutableStateOf("")
+    }
+    var paswVisible by remember {
+        mutableStateOf(false)
+    }
+    val icon = if (paswVisible) {
+        painterResource(id = R.drawable.desing_ic_visibility)
+    } else {
+        painterResource(id = R.drawable.desing_ic_visibilityoff)
+    }
+    OutlinedTextField(
+        value = pasw, onValueChange = { nextText ->
+            pasw = nextText
+        },
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 10.dp),
+        label = { Text(text = "Contraseña") },
+        trailingIcon = {
+            IconButton(onClick = {
+                paswVisible = !paswVisible
+            }) {
+                Icon(
+                    painter = icon,
+                    contentDescription = "Ver contraseña"
+                )
+            }
+        },
+        keyboardOptions = KeyboardOptions(
+            keyboardType = KeyboardType.Password
+        ),
+        visualTransformation = if (paswVisible) VisualTransformation.None
+        else PasswordVisualTransformation()
+    )
+}
+
+@Composable
+private fun BotonIngresar() {
+    val navController = rememberNavController()
+    Button(
+        onClick = { navController.navigate("ReferenciadosScreem") },
+        colors = ButtonDefaults.buttonColors(
+            containerColor = Color.Red,
+            contentColor = Color.White
+        ),
+        shape = RectangleShape,
+        elevation = ButtonDefaults
+            .buttonElevation(10.dp),//para sombreado
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 10.dp)
+    ) {
+        Text(text = "INGRESAR")
+    }
+}
+
+@Composable
+private fun BotonRegis() {
+    Button(
+        onClick = { },
+        colors = ButtonDefaults.buttonColors(
+            containerColor = Color.White,
+            contentColor = Color.Red
+        ),
+        shape = RectangleShape,
+        elevation = ButtonDefaults
+            .buttonElevation(10.dp),//para sombreado
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 10.dp)
+    ) {
+        Text(text = "REGISTRARME")
+    }
+}
+
+@Composable
+private fun TextOlvide() {
+    Text( //texto centrado en el medio de la pantalla
+        text = "Olvidé mi contraseña",
+        fontSize = 15.sp, //tamaño del texto
+        //color = Color.Red, //color del texto
+        color = colorResource(id = R.color.red),
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 10.dp), //ocupa el espacio con imagen
+        textAlign = TextAlign.Center //alinea el texto
+    )
 }

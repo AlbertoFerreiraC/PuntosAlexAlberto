@@ -23,6 +23,22 @@ import com.example.puntosalexalberto.R
 @Composable
 fun PromosScreem() {
     Scaffold(topBar = {
+
+        ToolPromo()
+
+    }) {
+        // Agregar el padding
+        Column(
+            modifier = Modifier.padding(it)
+        ) {
+
+        }
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun ToolPromo(){
         TopAppBar(title = { Text("PROMOS", color = colorResource(id = R.color.white)) },
             colors = TopAppBarDefaults.smallTopAppBarColors(containerColor = Color.Red),
             navigationIcon = {
@@ -34,12 +50,5 @@ fun PromosScreem() {
                     )
                 }
             })
-    }) {
-        // Agregar el padding
-        Column(
-            modifier = Modifier.padding(it)
-        ) {
 
-        }
-    }
 }
