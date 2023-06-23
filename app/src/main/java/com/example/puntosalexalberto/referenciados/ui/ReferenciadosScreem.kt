@@ -1,6 +1,7 @@
 package com.example.puntosalexalberto.referenciados.ui
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -65,30 +66,25 @@ fun ReferenciadosScreem() {
         drawerState = drawerState,
         scrimColor = Color.Transparent,
     ) {
-        Scaffold(
-            topBar = {
-                toolbar(drawerState = drawerState)
-            }) {
-
-            NavHost(navController = navController, startDestination = "ReferidosScreen") {
-
-                composable("ReferidosScreen") {
-                    ReferidosScreem()
-                }
-                composable("CatalogoScreen") {
-                    PromosScreem()
-                }
-                composable("LoginScreen") {
+        Scaffold(topBar = {
+            toolbar(drawerState = drawerState)
+        }) {
+            NavHost(navController = navController, startDestination = "LoginScreem") {
+                composable("LoginScreem") {
                     LoginScreem()
                 }
+                composable("PromosScreem") {
+                    PromosScreem()
+                }
+                composable("ReferidosScreem") {
+                    ReferidosScreem()
+                }
             }
-
             // Agregar el padding
             Column(
                 modifier = Modifier.padding(it)
             ) {
                 // Para el spinner
-
                 MaterialTheme() {
                     Column(
                         modifier = Modifier
@@ -160,9 +156,7 @@ private fun toolbar(drawerState: DrawerState) {
 
             }) {
                 Icon(
-                    Icons.Filled.Menu,
-                    contentDescription = "PUNTOS ALEX",
-                    tint = Color.White
+                    Icons.Filled.Menu, contentDescription = "PUNTOS ALEX", tint = Color.White
                 )
             }
         })
@@ -174,17 +168,13 @@ private fun OutlineArticulos() {
     var articulo by remember {
         mutableStateOf("")
     }
-    OutlinedTextField(
-        value = articulo,
-        onValueChange = { nextText ->
-            articulo = nextText
-        },
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 10.dp),
-        label = {
-            Text(text = "Articulo de Interés")
-        })
+    OutlinedTextField(value = articulo, onValueChange = { nextText ->
+        articulo = nextText
+    }, modifier = Modifier
+        .fillMaxWidth()
+        .padding(horizontal = 10.dp), label = {
+        Text(text = "Articulo de Interés")
+    })
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -193,16 +183,13 @@ private fun OtlineNroDoc() {
     var nroDoc by remember {
         mutableStateOf("")
     }
-    OutlinedTextField(value = nroDoc,
-        onValueChange = { nextText ->
-            nroDoc = nextText
-        },
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 10.dp),
-        label = {
-            Text(text = "Nro. Documento (Opcional)")
-        })
+    OutlinedTextField(value = nroDoc, onValueChange = { nextText ->
+        nroDoc = nextText
+    }, modifier = Modifier
+        .fillMaxWidth()
+        .padding(horizontal = 10.dp), label = {
+        Text(text = "Nro. Documento (Opcional)")
+    })
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -211,16 +198,13 @@ private fun OutlineNombre() {
     var nombre by remember {
         mutableStateOf("")
     }
-    OutlinedTextField(value = nombre,
-        onValueChange = { nextText ->
-            nombre = nextText
-        },
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 10.dp),
-        label = {
-            Text(text = "Nombres")
-        })
+    OutlinedTextField(value = nombre, onValueChange = { nextText ->
+        nombre = nextText
+    }, modifier = Modifier
+        .fillMaxWidth()
+        .padding(horizontal = 10.dp), label = {
+        Text(text = "Nombres")
+    })
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -229,16 +213,13 @@ private fun OutlineApellido() {
     var apellido by remember {
         mutableStateOf("")
     }
-    OutlinedTextField(value = apellido,
-        onValueChange = { nextText ->
-            apellido = nextText
-        },
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 10.dp),
-        label = {
-            Text(text = "Apellidos")
-        })
+    OutlinedTextField(value = apellido, onValueChange = { nextText ->
+        apellido = nextText
+    }, modifier = Modifier
+        .fillMaxWidth()
+        .padding(horizontal = 10.dp), label = {
+        Text(text = "Apellidos")
+    })
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -247,16 +228,13 @@ private fun OutlineCel() {
     var cel by remember {
         mutableStateOf("")
     }
-    OutlinedTextField(value = cel,
-        onValueChange = { nextText ->
-            cel = nextText
-        },
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 10.dp),
-        label = {
-            Text(text = "Celular")
-        })
+    OutlinedTextField(value = cel, onValueChange = { nextText ->
+        cel = nextText
+    }, modifier = Modifier
+        .fillMaxWidth()
+        .padding(horizontal = 10.dp), label = {
+        Text(text = "Celular")
+    })
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
