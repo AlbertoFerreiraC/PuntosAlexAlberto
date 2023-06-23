@@ -70,10 +70,8 @@ fun ReferenciadosScreem() {
                 toolbar(drawerState = drawerState)
             }) {
 
-            NavHost(
-                navController = navController,
-                startDestination = "LoginScreem"
-            ) {
+            NavHost(navController = navController, startDestination = "ReferidosScreen") {
+
                 composable("ReferidosScreen") {
                     ReferidosScreem()
                 }

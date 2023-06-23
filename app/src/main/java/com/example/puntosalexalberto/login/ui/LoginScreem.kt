@@ -42,6 +42,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.puntosalexalberto.R
 import com.example.puntosalexalberto.referenciados.ui.ReferenciadosActivity
+import com.example.puntosalexalberto.referenciados.ui.ReferenciadosScreem
 
 @Preview
 @Composable
@@ -177,7 +178,7 @@ private fun BotonIngresar() {
 @Composable
 private fun BotonRegis() {
     Button(
-        onClick = { },
+        onClick = {  },
         colors = ButtonDefaults.buttonColors(
             containerColor = Color.White,
             contentColor = Color.Red

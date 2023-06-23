@@ -30,8 +30,6 @@ fun NavigationDrawerItems(navController: NavHostController, drawerState: DrawerS
 
     var destination = currentBackStackEntryAsState.value?.destination
 
-
-
     NavigationDrawerItem(
         icon = { Icon(Icons.Filled.Person, contentDescription = "Referidos") },
         label = { Text(text = "Referidos") },
@@ -46,7 +44,8 @@ fun NavigationDrawerItems(navController: NavHostController, drawerState: DrawerS
                 drawerState.close()
             }
 
-        }, modifier = Modifier.padding(NavigationDrawerItemDefaults.ItemPadding)
+        },
+        modifier = Modifier.padding(NavigationDrawerItemDefaults.ItemPadding)
     )
 
     Spacer(modifier = Modifier.height(10.dp))
