@@ -47,6 +47,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.puntosalexalberto.Componentes.DrawerContent
+import com.example.puntosalexalberto.Componentes.MainNavigation
 import com.example.puntosalexalberto.R
 import com.example.puntosalexalberto.login.ui.LoginScreem
 import com.example.puntosalexalberto.promos.ui.PromosScreem
@@ -69,7 +70,10 @@ fun ReferenciadosScreem() {
         Scaffold(topBar = {
             toolbar(drawerState = drawerState)
         }) {
-            NavHost(navController = navController, startDestination = "LoginScreem") {
+            Box(modifier = Modifier.padding(it)) {
+                PantallaReferenciados()
+            }
+            NavHost(navController = navController, startDestination = "ReferenciadosScreem") {
                 composable("LoginScreem") {
                     LoginScreem()
                 }
@@ -79,50 +83,8 @@ fun ReferenciadosScreem() {
                 composable("ReferidosScreem") {
                     ReferidosScreem()
                 }
-            }
-            // Agregar el padding
-            Column(
-                modifier = Modifier.padding(it)
-            ) {
-                // Para el spinner
-                MaterialTheme() {
-                    Column(
-                        modifier = Modifier
-                            .padding(16.dp)
-                            .fillMaxWidth(),
-                        horizontalAlignment = Alignment.CenterHorizontally
-                    ) {
-                        Column(
-                            modifier = Modifier
-                                .fillMaxSize()
-                                .background(Color.White)
-                                .verticalScroll(rememberScrollState()) // Alternativa para no usar un LazyColumn
-                        ) {
-                            //componenet de articulo
-                            OutlineArticulos()
-
-                            //componenet de nro documento
-                            OtlineNroDoc()
-
-                            //componenet de Nombre
-                            OutlineNombre()
-
-                            //componenet de Apellido
-                            OutlineApellido()
-
-                            //componenet de Celular
-                            OutlineCel()
-
-                            //Componente de forma de contacto
-                            SpinnerFormaCon()
-
-                            //Componente de horario disponible
-                            SpineerHorario()
-
-                            //Componente de boton enviar
-                            ButtonEnviar()
-                        }
-                    }
+                composable("ReferenciadosScreem") {
+                    ReferenciadosScreem()
                 }
             }
         }
@@ -130,12 +92,55 @@ fun ReferenciadosScreem() {
 
 }
 
+@Composable
+fun PantallaReferenciados() {
+    Column {
+        MaterialTheme() {
+            Column(
+                modifier = Modifier
+                    .padding(16.dp)
+                    .fillMaxWidth(),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(Color.White)
+                        .verticalScroll(rememberScrollState())
+                ) {
+                    //componenet de articulo
+                    OutlineArticulos()
+
+                    //componenet de nro documento
+                    OtlineNroDoc()
+
+                    //componenet de Nombre
+                    OutlineNombre()
+
+                    //componenet de Apellido
+                    OutlineApellido()
+
+                    //componenet de Celular
+                    OutlineCel()
+
+                    //Componente de forma de contacto
+                    SpinnerFormaCon()
+
+                    //Componente de horario disponible
+                    SpineerHorario()
+
+                    //Componente de boton enviar
+                    ButtonEnviar()
+                }
+            }
+        }
+    }
+}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun toolbar(drawerState: DrawerState) {
     val coroutineScope = rememberCoroutineScope()
-
     TopAppBar(title = {
         Text(
             "PUNTOS ALEX", color = colorResource(id = R.color.white)
@@ -153,13 +158,13 @@ private fun toolbar(drawerState: DrawerState) {
                         drawerState.close()
                     }
                 }
-
             }) {
                 Icon(
                     Icons.Filled.Menu, contentDescription = "PUNTOS ALEX", tint = Color.White
                 )
             }
-        })
+        }
+    )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
