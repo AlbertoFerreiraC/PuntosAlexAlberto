@@ -1,5 +1,6 @@
 package com.example.puntosalexalberto.promos.ui
 
+import MainNavigation
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -9,7 +10,7 @@ class PromosActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            PromosScreem()
+            MainNavigation()//por ahora se mantiene con una sola navegacion
         }
     }
 }
