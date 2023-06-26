@@ -43,10 +43,10 @@ private fun NavegacionMain() {
                 ReferidosScreem(navController)
             }
             composable("PromosScreem") {
-                PromosScreem()
+                PromosScreem(navController)
             }
             composable("loginScreem") {
-                LoginScreem()
+                LoginScreem(navController)
             }
         }
     }
