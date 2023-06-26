@@ -1,10 +1,9 @@
 package com.example.puntosalexalberto.login.ui
 
-import MainNavigation
+import com.example.puntosalexalberto.MainNavigation
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import com.example.puntosalexalberto.referenciados.ui.ReferenciadosScreem
 
 class LoginActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

@@ -21,15 +21,18 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.puntosalexalberto.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Preview(showBackground = true)
 @Composable
 fun ReferidosScreem() {
+    val navController = rememberNavController()
     Scaffold(topBar = {
 
-        ToolReferidos()
+        ToolReferidos(navController)
 
     }) {// Agregar el padding
         Column(
@@ -44,11 +47,11 @@ fun ReferidosScreem() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun ToolReferidos() {
+private fun ToolReferidos(navController: NavController) {
     TopAppBar(title = { Text("REFERIDOS", color = colorResource(id = R.color.white)) },
         colors = TopAppBarDefaults.smallTopAppBarColors(containerColor = Color.Red),
         navigationIcon = {
-            IconButton(onClick = { }) {
+            IconButton(onClick = { navController.popBackStack()}) {
                 Icon(
                     Icons.Filled.ArrowBack,
                     contentDescription = "REFERIDOS",

@@ -43,24 +43,19 @@ import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
+import androidx.navigation.NavController
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.puntosalexalberto.Componentes.DrawerContent
 import com.example.puntosalexalberto.R
-import com.example.puntosalexalberto.login.ui.LoginScreem
-import com.example.puntosalexalberto.promos.ui.PromosScreem
-import com.example.puntosalexalberto.referidos.ui.ReferidosScreem
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
-@Preview
 @Composable
-fun ReferenciadosScreem() {
-    val navController = rememberNavController()
+fun ReferenciadosScreem(navController: NavController) { // Agrega el parámetro navController
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     ModalNavigationDrawer(
-        drawerContent = { DrawerContent(navController, drawerState) },
+        drawerContent = { DrawerContent(navController as NavHostController, drawerState) },
         drawerState = drawerState,
         scrimColor = Color.Transparent,
     ) {
@@ -70,23 +65,8 @@ fun ReferenciadosScreem() {
             Box(modifier = Modifier.padding(it)) {
                 PantallaReferenciados()
             }
-            NavHost(navController = navController, startDestination = "ReferenciadosScreem") {
-                composable("LoginScreem") {
-                    LoginScreem()
-                }
-                composable("PromosScreem") {
-                    PromosScreem()
-                }
-                composable("ReferidosScreem") {
-                    ReferidosScreem()
-                }
-                composable("ReferenciadosScreem") {
-                    ReferenciadosScreem()
-                }
-            }
         }
     }
-
 }
 
 @Composable

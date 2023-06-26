@@ -1,6 +1,6 @@
 package com.example.puntosalexalberto.referenciados.ui
 
-import MainNavigation
+import com.example.puntosalexalberto.MainNavigation
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
