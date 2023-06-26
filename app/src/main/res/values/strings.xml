@@ -8,4 +8,5 @@
     <string name="Catálogo_Alex">Screen_2</string>
     <string name="Cerrar_Sesión">Screen_3</string>
     <string name="title_activity_menu_test">MenuTest</string>
+    <string name="title_activity_registro">RegistroActivity</string>
 </resources>

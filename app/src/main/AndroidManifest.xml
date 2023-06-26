@@ -6,50 +6,48 @@
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/puntosalex"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@drawable/puntosalex"
         android:supportsRtl="true"
         android:theme="@style/Theme.PuntosAlexAlberto"
         tools:targetApi="31">
-
-        <activity android:name="com.example.puntosalexalberto.MainNavigation"
+        <activity
+            android:name=".Registro.ui.RegistroActivity"
+            android:exported="false"
+            android:label="@string/title_activity_registro"
+            android:theme="@style/Theme.PuntosAlexAlberto" />
+        <activity
+            android:name=".MainNavigation"
             android:exported="true"
-            android:label="Main"
+            android:label="Puntos Alex"
             android:theme="@style/Theme.PuntosAlexAlberto">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-
         <activity
             android:name=".promos.ui.PromosActivity"
             android:exported="false"
             android:label="@string/title_activity_promos_screem"
             android:theme="@style/Theme.PuntosAlexAlberto" />
-
         <activity
             android:name=".referidos.ui.ReferidosActivity"
             android:exported="false"
             android:label="@string/title_activity_referidos"
             android:theme="@style/Theme.PuntosAlexAlberto" />
-
         <activity
             android:name=".referenciados.ui.ReferenciadosActivity"
             android:exported="false"
             android:label="@string/title_activity_referidos"
             android:theme="@style/Theme.PuntosAlexAlberto" />
-
-
         <activity
             android:name=".login.ui.LoginActivity"
             android:exported="true"
             android:label="@string/app_name"
-            android:theme="@style/Theme.PuntosAlexAlberto">
-
-        </activity>
+            android:theme="@style/Theme.PuntosAlexAlberto"></activity>
     </application>
 
 </manifest>

@@ -66,12 +66,12 @@ fun LoginScreem(navController: NavController) {
                 Spacer(modifier = Modifier.height(30.dp))
 
                 //boton de ingresar
-                BotonIngresar()
+                BotonIngresar(navController)
 
                 Spacer(modifier = Modifier.height(3.dp))
 
                 //boton de registrarse
-                BotonRegis()
+                BotonRegis(navController)
 
                 Spacer(modifier = Modifier.height(40.dp))
 
@@ -151,8 +151,7 @@ private fun OutlinePas() {
 }
 
 @Composable
-private fun BotonIngresar() {
-    val navController = rememberNavController()
+private fun BotonIngresar(navController: NavController) {
     Button(
         onClick = { navController.navigate("ReferenciadosScreem") },
         colors = ButtonDefaults.buttonColors(
@@ -171,9 +170,9 @@ private fun BotonIngresar() {
 }
 
 @Composable
-private fun BotonRegis() {
+private fun BotonRegis(navController: NavController) {
     Button(
-        onClick = {  },
+        onClick = {navController.navigate("RegistroScreem")},
         colors = ButtonDefaults.buttonColors(
             containerColor = Color.White,
             contentColor = Color.Red
