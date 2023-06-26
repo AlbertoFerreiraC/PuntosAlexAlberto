@@ -40,7 +40,7 @@ private fun NavegacionMain() {
                 ReferenciadosScreem(navController)
             }
             composable("ReferidosScreem") {
-                ReferidosScreem()
+                ReferidosScreem(navController)
             }
             composable("PromosScreem") {
                 PromosScreem()

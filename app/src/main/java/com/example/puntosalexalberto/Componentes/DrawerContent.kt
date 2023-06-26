@@ -21,7 +21,7 @@ fun DrawerContent(navController: NavHostController, drawerState: DrawerState) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(end = 50.dp)
+            .padding(end = 53.dp)
             .background(Color.White),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
