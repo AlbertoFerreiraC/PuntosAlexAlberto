@@ -1,14 +1,11 @@
 package com.example.puntosalexalberto.login.ui
 
+import android.util.Log
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.puntosalexalberto.login.domain.LoginUseCase
+import com.example.puntosalexalberto.login.domain.OkClickLoginUseCase
 import com.example.puntosalexalberto.login.model.LoginState
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
 /**
@@ -21,10 +18,11 @@ class LoginViewModel() : ViewModel() {
     private val _loginState = mutableStateOf<LoginState>(LoginState.Success(state = true))
     val loginState = _loginState
 
-    private val loginUseCase = LoginUseCase()
+    private val loginUseCase = OkClickLoginUseCase()
 
     fun login(user: String, pass: String) {
 
+        Log.w(TAG, "login: loginViewModel", )
         _loginState.value = LoginState.Loading
 
         try {

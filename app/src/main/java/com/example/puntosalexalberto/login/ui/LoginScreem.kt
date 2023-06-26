@@ -151,7 +151,7 @@ fun LoginScreem(loginViewModel: LoginViewModel) {
                         //boton de ingresar
                         Button(
                             onClick = {
-                                loginViewModel.login("julio", "123")
+                                loginViewModel.login("julioc", "12345678")
 
                                 //navController.navigate("com.example.puntosalexalberto.referenciados.ui.ReferenciadosScreem")
                             },

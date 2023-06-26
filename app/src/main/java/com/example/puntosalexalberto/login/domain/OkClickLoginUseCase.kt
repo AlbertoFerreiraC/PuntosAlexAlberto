@@ -1,5 +1,7 @@
 package com.example.puntosalexalberto.login.domain
 
+import android.util.Log
+import com.example.puntosalexalberto.login.data.source.LoginRepo
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
@@ -10,12 +12,14 @@ import kotlinx.coroutines.withContext
  **/
 
 
-class LoginUseCase() {
+class OkClickLoginUseCase() {
     private val TAG = "LoginUseCase"
 
     suspend operator fun invoke(user:String, pass:String):Boolean {
+        Log.w(TAG, "invoke: ", )
+        val loginRepo:ILoginRepo = LoginRepo()
         withContext(Dispatchers.IO){
-            delay(5000)
+            loginRepo.login(user,pass)
         }
         return true
     }
