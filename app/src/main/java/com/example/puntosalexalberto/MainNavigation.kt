@@ -37,7 +37,7 @@ private fun NavegacionMain() {
         drawerContent = { DrawerContent(navController, drawerState) },
         drawerState = drawerState
     ) {
-        NavHost(navController = navController, startDestination = "DatosFunScreem") {
+        NavHost(navController = navController, startDestination = "LoginScreem") {
             composable("ReferenciadosScreem") {
                 ReferenciadosScreem(navController)
             }
