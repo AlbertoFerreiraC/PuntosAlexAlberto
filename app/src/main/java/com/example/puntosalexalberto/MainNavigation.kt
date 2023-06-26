@@ -12,6 +12,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.puntosalexalberto.Componentes.DrawerContent
+import com.example.puntosalexalberto.DatosFun.ui.DatosFunScreem
 import com.example.puntosalexalberto.Registro.ui.RegistroScreem
 import com.example.puntosalexalberto.login.ui.LoginScreem
 import com.example.puntosalexalberto.promos.ui.PromosScreem
@@ -36,7 +37,7 @@ private fun NavegacionMain() {
         drawerContent = { DrawerContent(navController, drawerState) },
         drawerState = drawerState
     ) {
-        NavHost(navController = navController, startDestination = "LoginScreem") {
+        NavHost(navController = navController, startDestination = "DatosFunScreem") {
             composable("ReferenciadosScreem") {
                 ReferenciadosScreem(navController)
             }
@@ -51,6 +52,9 @@ private fun NavegacionMain() {
             }
             composable("RegistroScreem") {
                 RegistroScreem(navController)
+            }
+            composable("DatosFunScreem") {
+                DatosFunScreem(navController)
             }
         }
     }

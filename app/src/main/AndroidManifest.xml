@@ -13,6 +13,11 @@
         android:theme="@style/Theme.PuntosAlexAlberto"
         tools:targetApi="31">
         <activity
+            android:name=".DatosFun.ui.DatosFunActivity"
+            android:exported="false"
+            android:label="@string/title_activity_datos_fun"
+            android:theme="@style/Theme.PuntosAlexAlberto" />
+        <activity
             android:name=".Registro.ui.RegistroActivity"
             android:exported="false"
             android:label="@string/title_activity_registro"
@@ -47,7 +52,7 @@
             android:name=".login.ui.LoginActivity"
             android:exported="true"
             android:label="@string/app_name"
-            android:theme="@style/Theme.PuntosAlexAlberto"></activity>
+            android:theme="@style/Theme.PuntosAlexAlberto" />
     </application>
 
 </manifest>

@@ -49,7 +49,7 @@ fun RegistroScreem(navController: NavController) {
 
                 Texto()
 
-                Butons()
+                Butons(navController)
 
                 //Spacer(modifier = Modifier.height(40.dp))
             }
@@ -106,9 +106,9 @@ private fun BotonNo(){
 }
 
 @Composable
-private fun BotonSi(){
+private fun BotonSi(navController: NavController){
     Button(
-        onClick = { },
+        onClick = {navController.navigate("DatosFunScreem")},
         colors = ButtonDefaults.buttonColors(
             containerColor = Color.Green,
             contentColor = Color.White
@@ -124,14 +124,14 @@ private fun BotonSi(){
     }
 }
 @Composable
-private fun Butons() {
+private fun Butons(navController: NavController) {
     Row(
         modifier = Modifier
             .fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceAround,
         verticalAlignment = Alignment.CenterVertically
     ) {
-        BotonSi()
+        BotonSi(navController)
         BotonNo()
     }
 }
