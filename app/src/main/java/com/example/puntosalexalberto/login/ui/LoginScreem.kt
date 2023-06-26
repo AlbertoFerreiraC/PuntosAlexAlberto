@@ -2,17 +2,20 @@ package com.example.puntosalexalberto.login.ui
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -39,11 +42,13 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.compose.rememberNavController
 import com.example.puntosalexalberto.R
+import com.example.puntosalexalberto.login.model.LoginState
+import kotlinx.coroutines.flow.StateFlow
 
 @OptIn(ExperimentalMaterial3Api::class)
-@Preview
 @Composable
-fun LoginScreem() {
+fun LoginScreem(loginViewModel: LoginViewModel) {
+
     var ci by remember {
         mutableStateOf("")
     }
@@ -59,110 +64,144 @@ fun LoginScreem() {
     } else {
         painterResource(id = R.drawable.desing_ic_visibilityoff)
     }
+
     val navController = rememberNavController()
-    MaterialTheme {
-        Column(
-            modifier = Modifier
-                .padding(16.dp)
-                .fillMaxWidth(),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Column( //para tener un scrol en columnas no funciona sin un item
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(Color.White)
-                    .verticalScroll(rememberScrollState()) //alternativa para no usar un LazyColumn
+
+    val loginState = loginViewModel.loginState.value
+
+
+    when (loginState) {
+        is LoginState.Error -> {
+
+        }
+
+        LoginState.Loading -> {
+            Box(
+                modifier = Modifier.fillMaxSize(),
+                contentAlignment = Alignment.Center
             ) {
-                Image(
+                CircularProgressIndicator(
+                    color = Color.Red,
                     modifier = Modifier
-                        .fillMaxWidth()
-                        .height(250.dp)
-                        .padding(vertical = 40.dp)
-                        .padding(horizontal = 10.dp),
-                    painter = painterResource(id = R.drawable.puntosalex),
-                    contentDescription = "Puntos Alex"
+                        .width(50.dp)
+                        .height(50.dp)
                 )
-                // Spacer(modifier = Modifier.height(10.dp))
-                //ingresar cedula
-                OutlinedTextField(value = ci, onValueChange = { nextText ->
-                    ci = nextText
-                },
+
+            }
+        }
+
+        is LoginState.Success -> {
+            MaterialTheme {
+                Column(
                     modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 10.dp),
-                    label = { Text(text = "Cédula de identidad") })
-                //ingresar contraseña
-                OutlinedTextField(
-                    value = pasw, onValueChange = { nextText ->
-                        pasw = nextText
-                    },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 10.dp),
-                    label = { Text(text = "Contraseña") },
-                    trailingIcon = {
-                        IconButton(onClick = {
-                            paswVisible = !paswVisible
-                        }) {
-                            Icon(
-                                painter = icon,
-                                contentDescription = "Ver contraseña"
-                            )
+                        .padding(16.dp)
+                        .fillMaxWidth(),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Column( //para tener un scrol en columnas no funciona sin un item
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .background(Color.White)
+                            .verticalScroll(rememberScrollState()) //alternativa para no usar un LazyColumn
+                    ) {
+
+                        Image(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(250.dp)
+                                .padding(vertical = 40.dp)
+                                .padding(horizontal = 10.dp),
+                            painter = painterResource(id = R.drawable.puntosalex),
+                            contentDescription = "Puntos Alex"
+                        )
+                        //ingresar cedula
+                        OutlinedTextField(value = ci, onValueChange = { nextText ->
+                            ci = nextText
+                        },
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(horizontal = 10.dp),
+                            label = { Text(text = "Cédula de identidad") })
+                        //ingresar contraseña
+                        OutlinedTextField(
+                            value = pasw, onValueChange = { nextText ->
+                                pasw = nextText
+                            },
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(horizontal = 10.dp),
+                            label = { Text(text = "Contraseña") },
+                            trailingIcon = {
+                                IconButton(onClick = {
+                                    paswVisible = !paswVisible
+                                }) {
+                                    Icon(
+                                        painter = icon,
+                                        contentDescription = "Ver contraseña"
+                                    )
+                                }
+                            },
+                            keyboardOptions = KeyboardOptions(
+                                keyboardType = KeyboardType.Password
+                            ),
+                            visualTransformation = if (paswVisible) VisualTransformation.None
+                            else PasswordVisualTransformation()
+                        )
+                        Spacer(modifier = Modifier.height(30.dp))
+                        //boton de ingresar
+                        Button(
+                            onClick = {
+                                loginViewModel.login("julio", "123")
+
+                                //navController.navigate("com.example.puntosalexalberto.referenciados.ui.ReferenciadosScreem")
+                            },
+                            colors = ButtonDefaults.buttonColors(
+                                containerColor = Color.Red,
+                                contentColor = Color.White
+                            ),
+                            shape = RectangleShape,
+                            elevation = ButtonDefaults
+                                .buttonElevation(10.dp),//para sombreado
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(horizontal = 10.dp)
+                        ) {
+                            Text(text = "INGRESAR")
                         }
-                    },
-                    keyboardOptions = KeyboardOptions(
-                        keyboardType = KeyboardType.Password
-                    ),
-                    visualTransformation = if (paswVisible) VisualTransformation.None
-                    else PasswordVisualTransformation()
-                )
-                Spacer(modifier = Modifier.height(30.dp))
-                //boton de ingresar
-                Button(
-                    onClick = { navController.navigate("com.example.puntosalexalberto.referenciados.ui.ReferenciadosScreem") },
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = Color.Red,
-                        contentColor = Color.White
-                    ),
-                    shape = RectangleShape,
-                    elevation = ButtonDefaults
-                        .buttonElevation(10.dp),//para sombreado
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 10.dp)
-                ) {
-                    Text(text = "INGRESAR")
+                        Spacer(modifier = Modifier.height(3.dp))
+                        //boton de registrarse
+                        Button(
+                            onClick = { },
+                            colors = ButtonDefaults.buttonColors(
+                                containerColor = Color.White,
+                                contentColor = Color.Red
+                            ),
+                            shape = RectangleShape,
+                            elevation = ButtonDefaults
+                                .buttonElevation(10.dp),//para sombreado
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(horizontal = 10.dp)
+                        ) {
+                            Text(text = "REGISTRARME")
+                        }
+                        Spacer(modifier = Modifier.height(40.dp))
+                        //olvide mi contraseña
+                        Text( //texto centrado en el medio de la pantalla
+                            text = "Olvidé mi contraseña",
+                            fontSize = 15.sp, //tamaño del texto
+                            //color = Color.Red, //color del texto
+                            color = colorResource(id = R.color.red),
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(horizontal = 10.dp), //ocupa el espacio con imagen
+                            textAlign = TextAlign.Center //alinea el texto
+                        )
+                    }
                 }
-                Spacer(modifier = Modifier.height(3.dp))
-                //boton de registrarse
-                Button(
-                    onClick = { },
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = Color.White,
-                        contentColor = Color.Red
-                    ),
-                    shape = RectangleShape,
-                    elevation = ButtonDefaults
-                        .buttonElevation(10.dp),//para sombreado
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 10.dp)
-                ) {
-                    Text(text = "REGISTRARME")
-                }
-                Spacer(modifier = Modifier.height(40.dp))
-                //olvide mi contraseña
-                Text( //texto centrado en el medio de la pantalla
-                    text = "Olvidé mi contraseña",
-                    fontSize = 15.sp, //tamaño del texto
-                    //color = Color.Red, //color del texto
-                    color = colorResource(id = R.color.red),
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 10.dp), //ocupa el espacio con imagen
-                    textAlign = TextAlign.Center //alinea el texto
-                )
             }
         }
     }
+
+
 }

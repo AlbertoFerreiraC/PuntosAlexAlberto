@@ -78,7 +78,6 @@ fun ReferenciadosScreem() {
                     PromosScreem()
                 }
                 composable("SettingPage") {
-                    LoginScreem()
                 }
 
             }

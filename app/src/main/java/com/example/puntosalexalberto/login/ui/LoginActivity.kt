@@ -8,8 +8,11 @@ import androidx.activity.compose.setContent
 class LoginActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        val loginViewModel = LoginViewModel()
+
         setContent {
-            ReferenciadosScreem()//cambiar por LoginScreem()
+            LoginScreem(loginViewModel)//cambiar por LoginScreem()
         }
     }
 }
