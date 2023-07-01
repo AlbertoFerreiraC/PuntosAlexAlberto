@@ -12,5 +12,14 @@ class PromosActivity : ComponentActivity() {
             MainNavigation()//por ahora se mantiene con una sola navegacion
         }
     }
+
+    override fun onStart() { //estados
+        super.onStart()
+    }
+
+    override fun onResume() {
+        super.onResume()
+    }
+
 }
 
