@@ -2,6 +2,7 @@ package com.example.puntosalexalberto.login.ui
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -11,6 +12,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -28,7 +30,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -37,11 +38,11 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.example.puntosalexalberto.R
+import kotlin.system.exitProcess
 
 @Composable
-fun LoginScreem(navController: NavController) {
+fun LoginScreem(navController: NavController, loginViewModel: LoginViewModel) {
     MaterialTheme {
         Column(
             modifier = Modifier
@@ -76,7 +77,7 @@ fun LoginScreem(navController: NavController) {
                 Spacer(modifier = Modifier.height(40.dp))
 
                 //olvide mi contraseña
-                TextOlvide()
+                TextOlvide(navController)
             }
         }
     }
@@ -168,7 +169,6 @@ private fun BotonIngresar(navController: NavController) {
         Text(text = "INGRESAR")
     }
 }
-
 @Composable
 private fun BotonRegis(navController: NavController) {
     Button(
@@ -189,15 +189,60 @@ private fun BotonRegis(navController: NavController) {
 }
 
 @Composable
-private fun TextOlvide() {
-    Text( //texto centrado en el medio de la pantalla
+private fun TextOlvide(navController: NavController) {
+    val showDialog = remember { mutableStateOf(false) }
+
+    Text(
         text = "Olvidé mi contraseña",
-        fontSize = 15.sp, //tamaño del texto
-        //color = Color.Red, //color del texto
-        color = colorResource(id = R.color.red),
+        fontSize = 15.sp,
+        color = Color.Red,
         modifier = Modifier
+            .clickable {
+                showDialog.value = true
+            }
             .fillMaxWidth()
-            .padding(horizontal = 10.dp), //ocupa el espacio con imagen
-        textAlign = TextAlign.Center //alinea el texto
+            .padding(horizontal = 10.dp),
+        textAlign = TextAlign.Center
+    )
+
+    if (showDialog.value) {
+        Alerta(navController)
+    }
+}
+
+@Composable
+private fun Alerta(navController: NavController) {
+    AlertDialog(
+        onDismissRequest = {
+        },
+        title = {
+            Text(text = "Información")
+        },
+        text = {
+            Text("Comunicate al +595986101152 para recibir una contraseña temporal")
+        },
+        confirmButton = {
+            Button(
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = Color.Transparent,
+                    contentColor = Color.Red
+                ),
+                onClick = {
+                    navController.navigate("LoginScreem")
+                }) {
+                Text("ACEPTAR")
+            }
+        },
+        dismissButton = {
+            Button(
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = Color.Transparent,
+                    contentColor = Color.Red
+                ),
+                onClick = { exitProcess(0) }//para salir de la app
+            ) {
+                Text("LLAMAR")
+            }
+        }
     )
 }

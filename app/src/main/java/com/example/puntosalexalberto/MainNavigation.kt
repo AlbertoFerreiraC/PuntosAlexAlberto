@@ -13,8 +13,10 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.puntosalexalberto.Componentes.DrawerContent
 import com.example.puntosalexalberto.DatosFun.ui.DatosFunScreem
+import com.example.puntosalexalberto.RegisUsu.ui.RegisUsu
 import com.example.puntosalexalberto.Registro.ui.RegistroScreem
 import com.example.puntosalexalberto.login.ui.LoginScreem
+import com.example.puntosalexalberto.login.ui.LoginViewModel
 import com.example.puntosalexalberto.promos.ui.PromosScreem
 import com.example.puntosalexalberto.referenciados.ui.ReferenciadosScreem
 import com.example.puntosalexalberto.referidos.ui.ReferidosScreem
@@ -33,6 +35,7 @@ class MainNavigation : ComponentActivity() {
 private fun NavegacionMain() {
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val navController = rememberNavController()
+    val loginViewModel = LoginViewModel()
     ModalNavigationDrawer(
         drawerContent = { DrawerContent(navController, drawerState) },
         drawerState = drawerState
@@ -48,13 +51,16 @@ private fun NavegacionMain() {
                 PromosScreem(navController)
             }
             composable("LoginScreem") {
-                LoginScreem(navController)
+                LoginScreem(navController, loginViewModel)
             }
             composable("RegistroScreem") {
                 RegistroScreem(navController)
             }
             composable("DatosFunScreem") {
                 DatosFunScreem(navController)
+            }
+            composable("RegisUsuScreem") {
+                RegisUsu(navController)
             }
         }
     }

@@ -28,9 +28,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.puntosalexalberto.R
 import com.example.puntosalexalberto.referidos.ui.Greeting
-
 @Composable
 fun RegistroScreem(navController: NavController) {
     MaterialTheme {
@@ -87,9 +87,9 @@ private fun Texto(){
 }
 
 @Composable
-private fun BotonNo(){
+private fun BotonNo(navController: NavController){
     Button(
-        onClick = { },
+        onClick = {navController.navigate("RegisUsuScreem")},
         colors = ButtonDefaults.buttonColors(
             containerColor = Color.Red,
             contentColor = Color.White
@@ -132,6 +132,6 @@ private fun Butons(navController: NavController) {
         verticalAlignment = Alignment.CenterVertically
     ) {
         BotonSi(navController)
-        BotonNo()
+        BotonNo(navController)
     }
 }

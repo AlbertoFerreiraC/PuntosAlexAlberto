@@ -264,9 +264,8 @@ private fun SpinnerFormaCon() {
 private fun SpineerHorario() {
     var ExpHora by remember { mutableStateOf(false) }
     val horario = (listOf("Indistinto", "Mañana", "Tarde", "Noche"))
-
     var expHora by remember { mutableStateOf(false) }
-    var selectedhorarioText by remember { mutableStateOf(horario[0]) }
+    var selectedhorarioText by remember { mutableStateOf("") }
     val iconHora = if (ExpHora) Icons.Filled.KeyboardArrowUp
     else Icons.Filled.KeyboardArrowDown
 
