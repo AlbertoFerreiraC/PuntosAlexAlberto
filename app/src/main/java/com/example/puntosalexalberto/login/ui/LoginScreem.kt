@@ -50,33 +50,28 @@ fun LoginScreem(navController: NavController, loginViewModel: LoginViewModel) {
                 .fillMaxWidth(),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Column( //para tener un scrol en columnas no funciona sin un item
+            Column(
                 modifier = Modifier
                     .fillMaxSize()
                     .background(Color.White)
-                    .verticalScroll(rememberScrollState()) //alternativa para no usar un LazyColumn
+                    .verticalScroll(rememberScrollState())
             ) {
                 ImageAlex()
 
-                //ingresar cedula
                 OutlineCedula()
 
-                //ingresar contraseña
                 OutlinePas()
 
                 Spacer(modifier = Modifier.height(30.dp))
 
-                //boton de ingresar
                 BotonIngresar(navController)
 
                 Spacer(modifier = Modifier.height(3.dp))
 
-                //boton de registrarse
                 BotonRegis(navController)
 
                 Spacer(modifier = Modifier.height(40.dp))
 
-                //olvide mi contraseña
                 TextOlvide(navController)
             }
         }

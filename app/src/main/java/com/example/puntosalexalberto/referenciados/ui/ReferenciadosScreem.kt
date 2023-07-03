@@ -224,10 +224,10 @@ private fun SpinnerFormaCon() {
         mutableStateOf(false)
     }
     var expanded by remember { mutableStateOf(false) }
-    var selectedOptionText by remember { mutableStateOf("") }
+    val contacto = listOf("WhatsApp", "Llamada")
+    var selectedOptionText by remember { mutableStateOf(contacto[0]) }
     val iconCon = if (ExpContac) Icons.Filled.KeyboardArrowUp
     else Icons.Filled.KeyboardArrowDown
-    val contacto = listOf("WhatsApp", "Llamada")
     ExposedDropdownMenuBox(expanded = ExpContac, onExpandedChange = {
         expanded = !expanded
     }) {
@@ -265,7 +265,7 @@ private fun SpineerHorario() {
     var ExpHora by remember { mutableStateOf(false) }
     val horario = (listOf("Indistinto", "Mañana", "Tarde", "Noche"))
     var expHora by remember { mutableStateOf(false) }
-    var selectedhorarioText by remember { mutableStateOf("") }
+    var selectedhorarioText by remember { mutableStateOf(horario[0]) }
     val iconHora = if (ExpHora) Icons.Filled.KeyboardArrowUp
     else Icons.Filled.KeyboardArrowDown
 
