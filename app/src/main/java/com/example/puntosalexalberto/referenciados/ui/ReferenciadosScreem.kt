@@ -50,7 +50,9 @@ import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ReferenciadosScreem(navController: NavController) { // Agrega el parámetro navController
+fun ReferenciadosScreem(
+    navController: NavController, referenciadosViewModel: ReferenciadosViewModel
+) {
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     ModalNavigationDrawer(
         drawerContent = { DrawerContent(navController as NavHostController, drawerState) },

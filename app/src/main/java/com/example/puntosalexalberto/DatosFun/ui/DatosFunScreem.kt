@@ -24,15 +24,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.res.colorResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.example.puntosalexalberto.R
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DatosFunScreem(navController: NavController) {
+fun DatosFunScreem(navController: NavController, datosFunViewModel: DatosFunViewModel) {
     Scaffold(topBar = {
 
         ToolReferidos(navController = navController)
@@ -100,7 +99,7 @@ private fun Celular() {
 @Composable
 private fun Buton(navController: NavController) {
     Button(
-        onClick = {navController.navigate("LoginScreem")},
+        onClick = {navController.popBackStack()},
         colors = ButtonDefaults.buttonColors(
             containerColor = Color.Red, contentColor = Color.White
         ),

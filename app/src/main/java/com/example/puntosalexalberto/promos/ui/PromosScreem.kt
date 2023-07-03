@@ -20,10 +20,10 @@ import com.example.puntosalexalberto.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun PromosScreem(navController: NavController) {
+fun PromosScreem(navController: NavController, promosViewModel: PromosViewModel) {
     Scaffold(topBar = {
 
-        ToolPromo()
+        ToolPromo(navController)
 
     }) {
         // Agregar el padding
@@ -37,11 +37,11 @@ fun PromosScreem(navController: NavController) {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun ToolPromo(){
+private fun ToolPromo(navController: NavController){
         TopAppBar(title = { Text("PROMOS", color = colorResource(id = R.color.white)) },
             colors = TopAppBarDefaults.smallTopAppBarColors(containerColor = Color.Red),
             navigationIcon = {
-                IconButton(onClick = { }) {
+                IconButton(onClick = {navController.popBackStack()}) {
                     Icon(
                         Icons.Filled.ArrowBack,
                         contentDescription = "PROMOS",

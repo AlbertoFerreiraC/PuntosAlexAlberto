@@ -25,22 +25,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.res.colorResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.example.puntosalexalberto.R
-
-@Composable
-@Preview
-fun prefviewDefault() {
-    val navController = rememberNavController()
-    RegisUsu(navController)
-}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun RegisUsu(navController: NavController) {
+fun RegisUsu(navController: NavController, regisUsuViewModel: RegisUsuViewModel) {
     Scaffold(topBar = {
 
         ToolPromo(navController)

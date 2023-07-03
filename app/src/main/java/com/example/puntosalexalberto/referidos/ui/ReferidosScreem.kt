@@ -31,7 +31,7 @@ import com.example.puntosalexalberto.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ReferidosScreem(navController: NavController) {
+fun ReferidosScreem(navController: NavController,referidosViewModel: ReferidosViewModel) {
     val navController = rememberNavController()
     Scaffold(topBar = {
 
@@ -54,7 +54,7 @@ private fun ToolReferidos(navController: NavController) {
     TopAppBar(title = { Text("REFERIDOS", color = colorResource(id = R.color.white)) },
         colors = TopAppBarDefaults.smallTopAppBarColors(containerColor = Color.Red),
         navigationIcon = {
-            IconButton(onClick = { navController.popBackStack() }) {
+            IconButton(onClick = {navController.popBackStack()}) {
                 Icon(
                     Icons.Filled.ArrowBack,
                     contentDescription = "REFERIDOS",
