@@ -1,19 +1,23 @@
 package com.example.puntosalexalberto.referenciados.ui
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.DrawerState
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.DropdownMenuItem
@@ -46,13 +50,24 @@ import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import com.example.puntosalexalberto.Componentes.DrawerContent
 import com.example.puntosalexalberto.R
+import com.example.puntosalexalberto.referenciados.model.ReferenciadosState
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ReferenciadosScreem(
-    navController: NavController, referenciadosViewModel: ReferenciadosViewModel
+    navController: NavController,
+    referenciadosViewModel: ReferenciadosViewModel
 ) {
+    val referenciadosState = referenciadosViewModel.referenciadosState.value
+    val articulosState = referenciadosViewModel.articuloState.value
+    val nroDocState = referenciadosViewModel.nroDocState.value
+    val nombresState = referenciadosViewModel.nombresState.value
+    val apellidosState = referenciadosViewModel.apellidoState.value
+    val celularState = referenciadosViewModel.celularState.value
+    val contactoState = referenciadosViewModel.contactoState.value
+    val horarioState = referenciadosViewModel.horarioState.value
+
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     ModalNavigationDrawer(
         drawerContent = { DrawerContent(navController as NavHostController, drawerState) },
@@ -63,14 +78,47 @@ fun ReferenciadosScreem(
             toolbar(drawerState = drawerState)
         }) {
             Box(modifier = Modifier.padding(it)) {
-                PantallaReferenciados()
+                PantallaReferenciados(
+                    referenciadosViewModel,
+                    articulosState,
+                    nroDocState,
+                    nombresState,
+                    apellidosState,
+                    celularState,
+                    contactoState,
+                    horarioState
+                )
+            }
+        }
+    }
+    when (referenciadosState) {
+        is ReferenciadosState.Error -> {
+            MensajeError(referenciadosState.throwable, onDismiss = { Unit })
+        }
+
+        ReferenciadosState.Loading -> {
+            ProgressBar()
+        }
+
+        is ReferenciadosState.Success -> {
+            if (referenciadosState.state) {
+                EnviadoCorrectamente(onDismiss = { Unit })
             }
         }
     }
 }
 
 @Composable
-fun PantallaReferenciados() {
+private fun PantallaReferenciados(
+    referenciadosViewModel: ReferenciadosViewModel,
+    articulosState: String,
+    nroDocState: String,
+    nombresState: String,
+    apellidosState: String,
+    celularState: String,
+    contactoState: String,
+    horarioState: String
+) {
     Column {
         MaterialTheme() {
             Column(
@@ -86,28 +134,28 @@ fun PantallaReferenciados() {
                         .verticalScroll(rememberScrollState())
                 ) {
                     //componenet de articulo
-                    OutlineArticulos()
+                    OutlineArticulos(referenciadosViewModel, articulosState)
 
                     //componenet de nro documento
-                    OtlineNroDoc()
+                    OtlineNroDoc(referenciadosViewModel, nroDocState)
 
                     //componenet de Nombre
-                    OutlineNombre()
+                    OutlineNombre(referenciadosViewModel, nombresState)
 
                     //componenet de Apellido
-                    OutlineApellido()
+                    OutlineApellido(referenciadosViewModel, apellidosState)
 
                     //componenet de Celular
-                    OutlineCel()
+                    OutlineCel(referenciadosViewModel, celularState)
 
                     //Componente de forma de contacto
-                    SpinnerFormaCon()
+                    SpinnerFormaCon(referenciadosViewModel, contactoState)
 
                     //Componente de horario disponible
-                    SpineerHorario()
+                    SpineerHorario(referenciadosViewModel, horarioState)
 
                     //Componente de boton enviar
-                    ButtonEnviar()
+                    ButtonEnviar(referenciadosViewModel)
                 }
             }
         }
@@ -146,12 +194,12 @@ private fun toolbar(drawerState: DrawerState) {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun OutlineArticulos() {
-    var articulo by remember {
-        mutableStateOf("")
-    }
-    OutlinedTextField(value = articulo, onValueChange = { nextText ->
-        articulo = nextText
+private fun OutlineArticulos(
+    referenciadosViewModel: ReferenciadosViewModel,
+    articulosState: String
+) {
+    OutlinedTextField(value = articulosState, onValueChange = { nextText ->
+        referenciadosViewModel.articulo(nextText)
     }, modifier = Modifier
         .fillMaxWidth()
         .padding(horizontal = 10.dp), label = {
@@ -161,12 +209,9 @@ private fun OutlineArticulos() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun OtlineNroDoc() {
-    var nroDoc by remember {
-        mutableStateOf("")
-    }
-    OutlinedTextField(value = nroDoc, onValueChange = { nextText ->
-        nroDoc = nextText
+private fun OtlineNroDoc(referenciadosViewModel: ReferenciadosViewModel, nroDocState: String) {
+    OutlinedTextField(value = nroDocState, onValueChange = { nextText ->
+        referenciadosViewModel.nroDoc(nextText)
     }, modifier = Modifier
         .fillMaxWidth()
         .padding(horizontal = 10.dp), label = {
@@ -176,12 +221,9 @@ private fun OtlineNroDoc() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun OutlineNombre() {
-    var nombre by remember {
-        mutableStateOf("")
-    }
-    OutlinedTextField(value = nombre, onValueChange = { nextText ->
-        nombre = nextText
+private fun OutlineNombre(referenciadosViewModel: ReferenciadosViewModel, nombresState: String) {
+    OutlinedTextField(value = nombresState, onValueChange = { nextText ->
+        referenciadosViewModel.nombres(nextText)
     }, modifier = Modifier
         .fillMaxWidth()
         .padding(horizontal = 10.dp), label = {
@@ -191,12 +233,12 @@ private fun OutlineNombre() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun OutlineApellido() {
-    var apellido by remember {
-        mutableStateOf("")
-    }
-    OutlinedTextField(value = apellido, onValueChange = { nextText ->
-        apellido = nextText
+private fun OutlineApellido(
+    referenciadosViewModel: ReferenciadosViewModel,
+    apellidosState: String
+) {
+    OutlinedTextField(value = apellidosState, onValueChange = { nextText ->
+        referenciadosViewModel.apellidos(nextText)
     }, modifier = Modifier
         .fillMaxWidth()
         .padding(horizontal = 10.dp), label = {
@@ -206,12 +248,9 @@ private fun OutlineApellido() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun OutlineCel() {
-    var cel by remember {
-        mutableStateOf("")
-    }
-    OutlinedTextField(value = cel, onValueChange = { nextText ->
-        cel = nextText
+private fun OutlineCel(referenciadosViewModel: ReferenciadosViewModel, celularState: String) {
+    OutlinedTextField(value = celularState, onValueChange = { nextText ->
+        referenciadosViewModel.celular(nextText)
     }, modifier = Modifier
         .fillMaxWidth()
         .padding(horizontal = 10.dp), label = {
@@ -221,7 +260,7 @@ private fun OutlineCel() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun SpinnerFormaCon() {
+private fun SpinnerFormaCon(referenciadosViewModel: ReferenciadosViewModel, contactoState: String) {
     var ExpContac by remember {
         mutableStateOf(false)
     }
@@ -263,7 +302,7 @@ private fun SpinnerFormaCon() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun SpineerHorario() {
+private fun SpineerHorario(referenciadosViewModel: ReferenciadosViewModel, horarioState: String) {
     var ExpHora by remember { mutableStateOf(false) }
     val horario = (listOf("Indistinto", "Mañana", "Tarde", "Noche"))
     var expHora by remember { mutableStateOf(false) }
@@ -303,9 +342,9 @@ private fun SpineerHorario() {
 }
 
 @Composable
-private fun ButtonEnviar() {
+private fun ButtonEnviar(referenciadosViewModel: ReferenciadosViewModel) {
     Button(
-        onClick = { },
+        onClick = { referenciadosViewModel.referenciar() },
         colors = ButtonDefaults.buttonColors(
             containerColor = Color.Red, contentColor = Color.White
         ),
@@ -316,5 +355,86 @@ private fun ButtonEnviar() {
             .padding(horizontal = 10.dp)
     ) {
         Text(text = "ENVIAR")
+    }
+}
+
+@Composable
+private fun MensajeError(error: Throwable, onDismiss: () -> Unit) {
+    val mensaje = remember { mutableStateOf(true) }
+    if (mensaje.value) {
+        AlertDialog(
+            onDismissRequest = {
+                onDismiss()
+                mensaje.value = false
+            },
+            title = {
+                Text(text = "Advertencia")
+            },
+            text = {
+                Text(text = "${error.message}")
+            },
+            confirmButton = {
+                Button(
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = Color.Transparent,
+                        contentColor = Color.Red
+                    ),
+                    onClick = {
+                        onDismiss()
+                        mensaje.value = false
+                    }
+                ) {
+                    Text("ACEPTAR")
+                }
+            }
+        )
+    }
+}
+
+@Composable
+private fun ProgressBar() {
+    Column(
+        modifier = Modifier.fillMaxSize(),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+    ) {
+        CircularProgressIndicator(
+            modifier = Modifier.wrapContentSize(),
+            strokeWidth = 4.dp,
+            color = Color.Red
+        )
+    }
+}
+
+@Composable
+private fun EnviadoCorrectamente(onDismiss: () -> Unit) {
+    val mensaje = remember { mutableStateOf(true) }
+    if (mensaje.value) {
+        AlertDialog(
+            onDismissRequest = {
+                onDismiss()
+                mensaje.value = false
+            },
+            title = {
+                Text(text = "Atención")
+            },
+            text = {
+                Text(text = "Referenciado cargado con éxito")
+            },
+            confirmButton = {
+                Button(
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = Color.Transparent,
+                        contentColor = Color.Red
+                    ),
+                    onClick = {
+                        onDismiss()
+                        mensaje.value = false
+                    }
+                ) {
+                    Text("ACEPTAR")
+                }
+            }
+        )
     }
 }

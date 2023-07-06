@@ -8,7 +8,6 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -41,7 +40,7 @@ class MainNavigation : ComponentActivity() {
 private fun NavegacionMain() {
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val navController = rememberNavController()
-    val loginViewModel = LoginViewModel()
+    val loginViewModel = LoginViewModel()//instancia
     val referenciadosViewModel = ReferenciadosViewModel()
     val datosFunViewModel = DatosFunViewModel()
     val promosViewModel = PromosViewModel()
