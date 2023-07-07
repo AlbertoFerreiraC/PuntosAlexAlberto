@@ -44,7 +44,6 @@ class LoginViewModel() : ViewModel() {
                     _loginState.value = LoginState.Success(false)
                 }
             } catch (e: Exception) {
-                Log.e(TAG, "login: e")
                 _loginState.value = LoginState.Error(e as Throwable)
             }
         }

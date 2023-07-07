@@ -11,6 +11,13 @@ class DatosFunUseCase() {
      withContext(Dispatchers.IO){
          delay(5000)
      }
+        if (celular.isEmpty()){
+            throw Exception("El numero de celular no debe ser nulo")
+            return false
+        } else if (cedula.isEmpty()){
+            throw Exception("El numero de cedula no debe ser nulo")
+            return false
+        }
         return true
     }
 }

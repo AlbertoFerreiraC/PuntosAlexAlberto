@@ -52,15 +52,14 @@ fun LoginScreem(navController: NavController, loginViewModel: LoginViewModel) {
     val passState = loginViewModel.passState.value
 
     screen(
-        navController = navController,
-        loginViewModel = loginViewModel,
+        navController,
+        loginViewModel,
         cedulaState = cedulaState,
         passState = passState
     )
 
     when (loginState) {
         is LoginState.Error -> {
-
             MensajeError(loginState.throwable, onDismiss = { Unit })
         }
 
