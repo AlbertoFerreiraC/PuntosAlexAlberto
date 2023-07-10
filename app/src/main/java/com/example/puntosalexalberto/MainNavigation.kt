@@ -17,6 +17,8 @@ import com.example.puntosalexalberto.DatosFun.ui.DatosFunViewModel
 import com.example.puntosalexalberto.RegisUsu.ui.RegisUsu
 import com.example.puntosalexalberto.RegisUsu.ui.RegisUsuViewModel
 import com.example.puntosalexalberto.Registro.ui.RegistroScreem
+import com.example.puntosalexalberto.datosUsu.ui.DatosUsuScreem
+import com.example.puntosalexalberto.datosUsu.ui.DatosUsuViewModel
 import com.example.puntosalexalberto.login.ui.LoginScreem
 import com.example.puntosalexalberto.login.ui.LoginViewModel
 import com.example.puntosalexalberto.promos.ui.PromosScreem
@@ -46,6 +48,7 @@ private fun NavegacionMain() {
     val promosViewModel = PromosViewModel()
     val referidosViewModel = ReferidosViewModel()
     val regisUsuViewModel = RegisUsuViewModel()
+    val datosUsuViewModel = DatosUsuViewModel()
     ModalNavigationDrawer(
         drawerContent = { DrawerContent(navController, drawerState) },
         drawerState = drawerState
@@ -71,6 +74,9 @@ private fun NavegacionMain() {
             }
             composable("RegisUsuScreem") {
                 RegisUsu(navController, regisUsuViewModel)
+            }
+            composable("DatosUsuScreem") {
+                DatosUsuScreem(navController, datosUsuViewModel)
             }
         }
     }

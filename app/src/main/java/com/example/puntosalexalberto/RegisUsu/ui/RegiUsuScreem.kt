@@ -58,7 +58,7 @@ fun RegisUsu(
 
         is RegisUsuState.Success -> {
             if (regisUsuState.state){
-                navController.navigate("LoginScreem")
+                navController.navigate("DatosUsuScreem")
             }
         }
     }
