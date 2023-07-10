@@ -8,8 +8,12 @@ class RegisUseCase() {
     private val TAG = "RegisUseCase"
 
     suspend operator fun invoke(cedula: String):Boolean{
-        withContext(Dispatchers.IO){
+        withContext(Dispatchers.IO) {
             delay(5000)
+        }
+        if (cedula.isEmpty()) {
+            throw Exception("El Nro de Documento no debe ser nulo")
+            return false
         }
         return true
     }

@@ -22,8 +22,20 @@ class ReferenciadosUseCase {
             Log.e(TAG, "Articulo: $articulo ", )
             delay(5000)
         }
-        if (articulo.isEmpty()){
+        if (articulo.isEmpty()) {
             throw Exception("El articulo no debe ser nulo")
+            return false
+        } else if (nroDoc.isEmpty()) {
+            throw Exception("El Nro de Documento no debe ser nulo")
+            return false
+        } else if (nombres.isEmpty()) {
+            throw Exception("El nombre no debe ser nulo")
+            return false
+        } else if (apellidos.isEmpty()) {
+            throw Exception("El Apellido no debe ser nulo")
+            return false
+        } else if (celular.isEmpty()) {
+            throw Exception("El Nro de celular no debe ser nulo")
             return false
         }
         return true
