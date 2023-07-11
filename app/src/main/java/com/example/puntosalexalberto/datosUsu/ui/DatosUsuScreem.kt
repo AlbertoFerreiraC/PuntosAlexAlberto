@@ -37,7 +37,6 @@ import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.example.puntosalexalberto.DatosFun.ui.DatosFunViewModel
 import com.example.puntosalexalberto.R
 import com.example.puntosalexalberto.datosUsu.model.DatosUsuState
 
@@ -67,7 +66,7 @@ fun DatosUsuScreem(navController: NavController, datosUsuViewModel: DatosUsuView
 
         is DatosUsuState.Success -> {
             if (datosUsuState.state){
-                navController.popBackStack()
+                navController.navigate("ContrasenaScreem")
             }
         }
     }
@@ -106,7 +105,7 @@ private fun DatosUsu(
 
             Vinculo()
 
-            ButtonSiguiente()
+            ButtonSiguiente(datosUsuViewModel)
         }
     }
 }
@@ -303,9 +302,9 @@ private fun Vinculo() {
 }
 
 @Composable
-private fun ButtonSiguiente() {
+private fun ButtonSiguiente(datosUsuViewModel: DatosUsuViewModel) {
     Button(
-        onClick = { },
+        onClick = { datosUsuViewModel.datosUsuState },
         colors = ButtonDefaults.buttonColors(
             containerColor = Color.Red, contentColor = Color.White
         ),

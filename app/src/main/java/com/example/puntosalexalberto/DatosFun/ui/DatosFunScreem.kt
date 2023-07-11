@@ -30,6 +30,7 @@ import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.example.puntosalexalberto.DatosFun.domain.DatosFunUseCase
 import com.example.puntosalexalberto.DatosFun.model.DatosFunState
 import com.example.puntosalexalberto.R
 
@@ -81,6 +82,8 @@ private fun screen(
             Celular(datosFunViewModel, celularState)
 
             Buton(navController)
+
+            //datosFunUseCase.datos(datosFunViewModel.celularState.value,datosFunViewModel.cedulaState.value)
         }
     }
 }

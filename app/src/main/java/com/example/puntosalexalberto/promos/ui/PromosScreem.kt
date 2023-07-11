@@ -1,5 +1,6 @@
 package com.example.puntosalexalberto.promos.ui
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
@@ -14,13 +15,19 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.colorResource
 import androidx.navigation.NavController
 import com.example.puntosalexalberto.R
+import com.example.puntosalexalberto.promos.domain.PromosUseCase
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun PromosScreem(navController: NavController, promosViewModel: PromosViewModel) {
+fun PromosScreem(
+    navController: NavController,
+    promosViewModel: PromosViewModel,
+    promosUseCase: PromosUseCase
+) {
     Scaffold(topBar = {
 
         ToolPromo(navController)
@@ -30,9 +37,20 @@ fun PromosScreem(navController: NavController, promosViewModel: PromosViewModel)
         Column(
             modifier = Modifier.padding(it)
         ) {
+            val imagePainter: Painter = promosUseCase.img()
+            Image(painter = imagePainter, contentDescription = "Imagen de prueba") //puede tener valores
 
+            val imagen: Painter = promosUseCase.imagen()
+            Image(painter = imagen, contentDescription = null) //puede ser nulo
+            
+            val texto: Int = promosUseCase.texto()
+            Text(text = texto)
         }
     }
+}
+
+fun Text(text: Int) {
+
 }
 
 @OptIn(ExperimentalMaterial3Api::class)

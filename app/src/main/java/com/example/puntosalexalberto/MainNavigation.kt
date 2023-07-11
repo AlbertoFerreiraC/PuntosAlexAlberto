@@ -17,10 +17,14 @@ import com.example.puntosalexalberto.DatosFun.ui.DatosFunViewModel
 import com.example.puntosalexalberto.RegisUsu.ui.RegisUsu
 import com.example.puntosalexalberto.RegisUsu.ui.RegisUsuViewModel
 import com.example.puntosalexalberto.Registro.ui.RegistroScreem
+import com.example.puntosalexalberto.contraseña.domain.ContrasenaUseCase
+import com.example.puntosalexalberto.contraseña.ui.ContrasenaScreem
+import com.example.puntosalexalberto.contraseña.ui.ContrasenaViewModel
 import com.example.puntosalexalberto.datosUsu.ui.DatosUsuScreem
 import com.example.puntosalexalberto.datosUsu.ui.DatosUsuViewModel
 import com.example.puntosalexalberto.login.ui.LoginScreem
 import com.example.puntosalexalberto.login.ui.LoginViewModel
+import com.example.puntosalexalberto.promos.domain.PromosUseCase
 import com.example.puntosalexalberto.promos.ui.PromosScreem
 import com.example.puntosalexalberto.promos.ui.PromosViewModel
 import com.example.puntosalexalberto.referenciados.ui.ReferenciadosScreem
@@ -49,6 +53,8 @@ private fun NavegacionMain() {
     val referidosViewModel = ReferidosViewModel()
     val regisUsuViewModel = RegisUsuViewModel()
     val datosUsuViewModel = DatosUsuViewModel()
+    val contrasenaViewModel = ContrasenaViewModel()
+    val promosUseCase = PromosUseCase()
     ModalNavigationDrawer(
         drawerContent = { DrawerContent(navController, drawerState) },
         drawerState = drawerState
@@ -61,7 +67,7 @@ private fun NavegacionMain() {
                 ReferidosScreem(navController,referidosViewModel)
             }
             composable("PromosScreem") {
-                PromosScreem(navController, promosViewModel)
+                PromosScreem(navController, promosViewModel,promosUseCase)
             }
             composable("LoginScreem") {
                 LoginScreem(navController, loginViewModel)
@@ -77,6 +83,9 @@ private fun NavegacionMain() {
             }
             composable("DatosUsuScreem") {
                 DatosUsuScreem(navController, datosUsuViewModel)
+            }
+            composable("ContrasenaScreem") {
+                ContrasenaScreem(navController, contrasenaViewModel)
             }
         }
     }
