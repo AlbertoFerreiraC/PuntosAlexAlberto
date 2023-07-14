@@ -53,15 +53,25 @@ class ReferenciadosViewModel() : ViewModel() {
     //contacto
     private val _contactoState = mutableStateOf<String>("")
     val contactoState: State<String> = _contactoState
-    fun contacto(contacto: String){
+    fun contacto(contacto: String) {
         _contactoState.value = contacto
     }
+
     //horario
     private val _horarioState = mutableStateOf<String>("")
     val horarioState: State<String> = _horarioState
-    fun horario(horario : String){
+    fun horario(horario: String) {
         _horarioState.value = horario
     }
+
+
+    private val _horarioListState = mutableListOf<String>() //crea y manipula elementos
+    val horarioListState = mutableListOf("Indistinto", "Mañana", "Tarde", "Noche")
+    fun horarioListState(horarioListState: List<String>) {
+        _horarioListState.addAll(horarioListState) //agrega todos los valores de la lista
+    }
+
+    //test lista para forma de contazto
 
     private val referenciadosUseCase = ReferenciadosUseCase()
 
