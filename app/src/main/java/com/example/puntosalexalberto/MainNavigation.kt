@@ -23,10 +23,7 @@ class MainNavigation : ComponentActivity() {
     @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-
         val loginViewModel = LoginViewModel()
-
         setContent {
             val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
             val navController = rememberNavController()
