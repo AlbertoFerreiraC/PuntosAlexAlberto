@@ -1,6 +1,7 @@
 package com.example.puntosalexalberto.referenciados.domain
 
 import android.util.Log
+import com.example.puntosalexalberto.referenciados.model.ReferenciadosUI
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
@@ -8,36 +9,25 @@ import kotlinx.coroutines.withContext
 class ReferenciadosUseCase {
     private val TAG = "ReferenciadosUseCase"
 
-    suspend operator fun invoke(
-        articulo: String,
-        nroDoc: String,
-        nombres: String,
-        apellidos: String,
-        celular: String,
-        contacto: String,
-        horario: String
-
-    ): Boolean {
+    suspend operator fun invoke(referenciados: ReferenciadosUI): Boolean {
         withContext(Dispatchers.IO) {
-            Log.e(TAG, "Articulo: $articulo ", )
+            Log.e(TAG, "Articulo: ${referenciados.articulo} ")
             delay(5000)
         }
-        if (articulo.isEmpty()) {
+        if (referenciados.articulo.isEmpty()) {
             throw Exception("El articulo no debe ser nulo")
-            return false
-        } else if (nroDoc.isEmpty()) {
+        } else if (referenciados.nroDocumento.isEmpty()) {
             throw Exception("El Nro de Documento no debe ser nulo")
-            return false
-        } else if (nombres.isEmpty()) {
+        } else if (referenciados.nombres.isEmpty()) {
             throw Exception("El nombre no debe ser nulo")
-            return false
-        } else if (apellidos.isEmpty()) {
+        } else if (referenciados.apellidos.isEmpty()) {
             throw Exception("El Apellido no debe ser nulo")
-            return false
-        } else if (celular.isEmpty()) {
+        } else if (referenciados.nroCelular.isEmpty()) {
             throw Exception("El Nro de celular no debe ser nulo")
-            return false
         }
+
+        Log.e(TAG, "invoke: $referenciados")
+
         return true
     }
 }

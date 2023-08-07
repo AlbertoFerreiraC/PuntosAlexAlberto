@@ -1,102 +1,76 @@
 package com.example.puntosalexalberto.referenciados.ui
 
 import android.util.Log
-import androidx.compose.runtime.State
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.puntosalexalberto.Componentes.useCase.FormaContactoUseCase
+import com.example.puntosalexalberto.Componentes.useCase.HorarioDisponibleUseCase
 import com.example.puntosalexalberto.referenciados.domain.ReferenciadosUseCase
 import com.example.puntosalexalberto.referenciados.model.ReferenciadosState
 import kotlinx.coroutines.launch
 
 class ReferenciadosViewModel() : ViewModel() {
     private val TAG = "ReferenciadosViewModel"
-    private val _referenciadosState =
-        mutableStateOf<ReferenciadosState>(ReferenciadosState.Success(state = false))
-    val referenciadosState = _referenciadosState
+    var referenciadosState by mutableStateOf(ReferenciadosState())
+        private set
 
-    //articulo
-    private val _articuloState = mutableStateOf<String>("")
-    val articuloState: State<String> = _articuloState
-    fun articulo(articulo: String) {
-        _articuloState.value = articulo
+    fun articuloCarga(articulo: String) {
+        referenciadosState =
+            referenciadosState.copy(Referenciados = referenciadosState.Referenciados.copy(articulo = articulo))
     }
 
-    //nroDoc
-    private val _nroDocState = mutableStateOf<String>("")
-    val nroDocState: State<String> = _nroDocState
-    fun nroDoc(nroDoc: String) {
-        _nroDocState.value = nroDoc
+    fun nroDocCarga(nroDoc: String) {
+        referenciadosState = referenciadosState.copy(
+            Referenciados = referenciadosState.Referenciados.copy(nroDocumento = nroDoc)
+        )
     }
 
-    //nombres
-    private val _nombresState = mutableStateOf<String>("")
-    val nombresState: State<String> = _nombresState
-    fun nombres(nombres: String) {
-        _nombresState.value = nombres
+    fun nombresCarga(nombres: String) {
+        referenciadosState =
+            referenciadosState.copy(Referenciados = referenciadosState.Referenciados.copy(nombres = nombres))
     }
 
-    //apellidos
-    private val _apellidosState = mutableStateOf<String>("")
-    val apellidoState: State<String> = _apellidosState
-    fun apellidos(apellidos: String) {
-        _apellidosState.value = apellidos
+    fun apellidosCarga(apellidos: String) {
+        referenciadosState =
+            referenciadosState.copy(Referenciados = referenciadosState.Referenciados.copy(apellidos = apellidos))
     }
 
-    //celular
-    private val _celularState = mutableStateOf<String>("")
-    val celularState: State<String> = _celularState
-    fun celular(celular: String) {
-        _celularState.value = celular
+    fun celularCarga(celular: String) {
+        referenciadosState =
+            referenciadosState.copy(Referenciados = referenciadosState.Referenciados.copy(nroCelular = celular))
     }
 
-    //contacto
-    private val _contactoState = mutableStateOf<String>("")
-    val contactoState: State<String> = _contactoState
-    fun contacto(contacto: String) {
-        _contactoState.value = contacto
+    private val _formaContactoUseCase = FormaContactoUseCase()
+    val formaContactoList = _formaContactoUseCase()
+    fun formaContactoCarga(contacto: String) {
+        referenciadosState = referenciadosState.copy(
+            Referenciados = referenciadosState.Referenciados.copy(formaContacto = contacto)
+        )
     }
 
-    //horario
-    private val _horarioState = mutableStateOf<String>("")
-    val horarioState: State<String> = _horarioState
-    fun horario(horario: String) {
-        _horarioState.value = horario
+    private val _horarioDisponibleUseCase = HorarioDisponibleUseCase()
+    val horarioDisponibleList = _horarioDisponibleUseCase()
+    fun horarioDisponibleCarga(horario: String) {
+        referenciadosState = referenciadosState.copy(
+            Referenciados = referenciadosState.Referenciados.copy(horarioDisponible = horario)
+        )
     }
-
-
-    private val _horarioListState = mutableListOf<String>() //crea y manipula elementos
-    val horarioListState = mutableListOf("Indistinto", "Mañana", "Tarde", "Noche")
-    fun horarioListState(horarioListState: List<String>) {
-        _horarioListState.addAll(horarioListState) //agrega todos los valores de la lista
-    }
-
-    //test lista para forma de contazto
 
     private val referenciadosUseCase = ReferenciadosUseCase()
 
-    fun referenciar() {
-        _referenciadosState.value = ReferenciadosState.Loading
+    fun enviar() {
+        referenciadosState = referenciadosState.copy(Loading = true)
         try {
             viewModelScope.launch {
-                if (referenciadosUseCase(
-                        _articuloState.value,
-                        _nroDocState.value,
-                        _nombresState.value,
-                        _apellidosState.value,
-                        _celularState.value,
-                        _contactoState.value,
-                        _horarioState.value
-                    )
-                ) {
-                    _referenciadosState.value = ReferenciadosState.Success(true)
-                } else {
-                    _referenciadosState.value = ReferenciadosState.Success(true)
-                }
+                referenciadosUseCase(referenciados = referenciadosState.Referenciados)
             }
         } catch (e: Exception) {
-            Log.e(TAG, "referenciar: e")
-            _referenciadosState.value = ReferenciadosState.Error(e as Throwable)
+            Log.e(TAG, "referenciar:  e")
+            referenciadosState = referenciadosState.copy(Loading = false)
+            referenciadosState = ReferenciadosState(Error = e)
         }
     }
 

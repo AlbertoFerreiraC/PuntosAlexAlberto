@@ -1,7 +1,8 @@
 package com.example.puntosalexalberto.referenciados.model
 
-sealed interface ReferenciadosState {
-    object Loading : ReferenciadosState
-    data class Error(val throwable: Throwable) : ReferenciadosState
-    data class Success(val state: Boolean) : ReferenciadosState
-}
+data class ReferenciadosState(
+    val Loading: Boolean = false,
+    val Error: Throwable? = null,
+    val Success: Boolean = true,
+    val Referenciados: ReferenciadosUI = ReferenciadosUI()
+)

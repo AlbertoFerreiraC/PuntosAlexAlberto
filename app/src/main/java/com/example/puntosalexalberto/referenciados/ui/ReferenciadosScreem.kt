@@ -11,8 +11,6 @@ import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.KeyboardArrowDown
-import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
@@ -50,7 +48,7 @@ import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import com.example.puntosalexalberto.Componentes.DrawerContent
 import com.example.puntosalexalberto.R
-import com.example.puntosalexalberto.referenciados.model.ReferenciadosState
+import com.example.puntosalexalberto.referenciados.model.ReferenciadosUI
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -59,14 +57,7 @@ fun ReferenciadosScreem(
     navController: NavController,
     referenciadosViewModel: ReferenciadosViewModel
 ) {
-    val referenciadosState = referenciadosViewModel.referenciadosState.value
-    val articulosState = referenciadosViewModel.articuloState.value
-    val nroDocState = referenciadosViewModel.nroDocState.value
-    val nombresState = referenciadosViewModel.nombresState.value
-    val apellidosState = referenciadosViewModel.apellidoState.value
-    val celularState = referenciadosViewModel.celularState.value
-    val contactoState = referenciadosViewModel.contactoState.value
-    val horarioState = referenciadosViewModel.horarioState.value
+    val referenciadosState = referenciadosViewModel.referenciadosState
 
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     ModalNavigationDrawer(
@@ -78,46 +69,31 @@ fun ReferenciadosScreem(
             toolbar(drawerState = drawerState)
         }) {
             Box(modifier = Modifier.padding(it)) {
-                PantallaReferenciados(
-                    referenciadosViewModel,
-                    articulosState,
-                    nroDocState,
-                    nombresState,
-                    apellidosState,
-                    celularState,
-                    contactoState,
-                    horarioState
-                )
+                when {
+                    referenciadosState.Loading -> {
+                        ProgressBar()
+                    }
+
+                    referenciadosState.Success -> {
+                        PantallaReferenciados(
+                            referenciadosViewModel, referenciadosState.Referenciados
+                        )
+                    }
+
+                    referenciadosState.Error != null -> {
+                        MensajeError(referenciadosState.Error, onDismiss = { Unit })
+                    }
+
+                }
             }
         }
     }
-    when (referenciadosState) {
-        is ReferenciadosState.Error -> {
-            MensajeError(referenciadosState.throwable, onDismiss = { Unit })
-        }
 
-        ReferenciadosState.Loading -> {
-            ProgressBar()
-        }
-
-        is ReferenciadosState.Success -> {
-            if (referenciadosState.state) {
-                EnviadoCorrectamente(onDismiss = { Unit })
-            }
-        }
-    }
 }
 
 @Composable
 private fun PantallaReferenciados(
-    referenciadosViewModel: ReferenciadosViewModel,
-    articulosState: String,
-    nroDocState: String,
-    nombresState: String,
-    apellidosState: String,
-    celularState: String,
-    contactoState: String,
-    horarioState: String
+    referenciadosViewModel: ReferenciadosViewModel, referenciadosUI: ReferenciadosUI
 ) {
     Column {
         MaterialTheme() {
@@ -134,25 +110,25 @@ private fun PantallaReferenciados(
                         .verticalScroll(rememberScrollState())
                 ) {
                     //componenet de articulo
-                    OutlineArticulos(referenciadosViewModel, articulosState)
+                    OutlineArticulos(referenciadosViewModel, referenciadosUI.articulo)
 
                     //componenet de nro documento
-                    OtlineNroDoc(referenciadosViewModel, nroDocState)
+                    OtlineNroDoc(referenciadosViewModel, referenciadosUI.nroDocumento)
 
                     //componenet de Nombre
-                    OutlineNombre(referenciadosViewModel, nombresState)
+                    OutlineNombre(referenciadosViewModel, referenciadosUI.nombres)
 
                     //componenet de Apellido
-                    OutlineApellido(referenciadosViewModel, apellidosState)
+                    OutlineApellido(referenciadosViewModel, referenciadosUI.apellidos)
 
                     //componenet de Celular
-                    OutlineCel(referenciadosViewModel, celularState)
+                    OutlineCel(referenciadosViewModel, referenciadosUI.nroCelular)
 
                     //Componente de forma de contacto
-                    SpinnerFormaCon(referenciadosViewModel, contactoState)
+                    SpinnerFormaCon(referenciadosViewModel, referenciadosUI.formaContacto)
 
                     //Componente de horario disponible
-                    SpineerHorario(referenciadosViewModel, horarioState)
+                    SpineerHorario(referenciadosViewModel, referenciadosUI.horarioDisponible)
 
                     //Componente de boton enviar
                     ButtonEnviar(referenciadosViewModel)
@@ -199,7 +175,7 @@ private fun OutlineArticulos(
     articulosState: String
 ) {
     OutlinedTextField(value = articulosState, onValueChange = { nextText ->
-        referenciadosViewModel.articulo(nextText)
+        referenciadosViewModel.articuloCarga(nextText)
     }, modifier = Modifier
         .fillMaxWidth()
         .padding(horizontal = 10.dp), label = {
@@ -211,7 +187,7 @@ private fun OutlineArticulos(
 @Composable
 private fun OtlineNroDoc(referenciadosViewModel: ReferenciadosViewModel, nroDocState: String) {
     OutlinedTextField(value = nroDocState, onValueChange = { nextText ->
-        referenciadosViewModel.nroDoc(nextText)
+        referenciadosViewModel.nroDocCarga(nextText)
     }, modifier = Modifier
         .fillMaxWidth()
         .padding(horizontal = 10.dp), label = {
@@ -223,7 +199,7 @@ private fun OtlineNroDoc(referenciadosViewModel: ReferenciadosViewModel, nroDocS
 @Composable
 private fun OutlineNombre(referenciadosViewModel: ReferenciadosViewModel, nombresState: String) {
     OutlinedTextField(value = nombresState, onValueChange = { nextText ->
-        referenciadosViewModel.nombres(nextText)
+        referenciadosViewModel.nombresCarga(nextText)
     }, modifier = Modifier
         .fillMaxWidth()
         .padding(horizontal = 10.dp), label = {
@@ -238,7 +214,7 @@ private fun OutlineApellido(
     apellidosState: String
 ) {
     OutlinedTextField(value = apellidosState, onValueChange = { nextText ->
-        referenciadosViewModel.apellidos(nextText)
+        referenciadosViewModel.apellidosCarga(nextText)
     }, modifier = Modifier
         .fillMaxWidth()
         .padding(horizontal = 10.dp), label = {
@@ -250,7 +226,7 @@ private fun OutlineApellido(
 @Composable
 private fun OutlineCel(referenciadosViewModel: ReferenciadosViewModel, celularState: String) {
     OutlinedTextField(value = celularState, onValueChange = { nextText ->
-        referenciadosViewModel.celular(nextText)
+        referenciadosViewModel.celularCarga(nextText)
     }, modifier = Modifier
         .fillMaxWidth()
         .padding(horizontal = 10.dp), label = {
@@ -265,14 +241,11 @@ private fun SpinnerFormaCon(referenciadosViewModel: ReferenciadosViewModel, cont
         mutableStateOf(false)
     }
     var expanded by remember { mutableStateOf(false) }
-    val contacto = listOf("WhatsApp", "Llamada")
-    var selectedOptionText by remember { mutableStateOf(contacto[0]) }
-    val iconCon = if (ExpContac) Icons.Filled.KeyboardArrowUp
-    else Icons.Filled.KeyboardArrowDown
     ExposedDropdownMenuBox(expanded = ExpContac, onExpandedChange = {
         expanded = !expanded
     }) {
-        OutlinedTextField(value = selectedOptionText,
+        OutlinedTextField(
+            value = contactoState,
             onValueChange = {},
             readOnly = true,
             modifier = Modifier
@@ -288,11 +261,11 @@ private fun SpinnerFormaCon(referenciadosViewModel: ReferenciadosViewModel, cont
         ExposedDropdownMenu(expanded = expanded, onDismissRequest = {
             expanded = !expanded
         }) {
-            contacto.forEach { con ->
+            referenciadosViewModel.formaContactoList.forEach { con ->
                 DropdownMenuItem(text = {
                     Text(text = con, color = Color.Black)
                 }, onClick = {
-                    selectedOptionText = con
+                    referenciadosViewModel.formaContactoCarga(con)
                     expanded = false
                 })
             }
@@ -303,17 +276,12 @@ private fun SpinnerFormaCon(referenciadosViewModel: ReferenciadosViewModel, cont
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun SpineerHorario(referenciadosViewModel: ReferenciadosViewModel, horarioState: String) {
-    var ExpHora by remember { mutableStateOf(false) }
-    val horario = (listOf("Indistinto", "Mañana", "Tarde", "Noche"))
     var expHora by remember { mutableStateOf(false) }
-    var selectedhorarioText by remember { mutableStateOf(horario[0]) }
-    val iconHora = if (ExpHora) Icons.Filled.KeyboardArrowUp
-    else Icons.Filled.KeyboardArrowDown
-
     ExposedDropdownMenuBox(expanded = expHora, onExpandedChange = {
         expHora = !expHora
     }) {
-        OutlinedTextField(value = selectedhorarioText,
+        OutlinedTextField(
+            value = horarioState,
             onValueChange = {},
             readOnly = true,
             modifier = Modifier
@@ -329,11 +297,11 @@ private fun SpineerHorario(referenciadosViewModel: ReferenciadosViewModel, horar
         ExposedDropdownMenu(expanded = expHora, onDismissRequest = {
             expHora = !expHora
         }) {
-            horario.forEach { hora ->
+            referenciadosViewModel.horarioDisponibleList.forEach { hora ->
                 DropdownMenuItem(text = {
                     Text(text = hora, color = Color.Black)
                 }, onClick = {
-                    selectedhorarioText = hora
+                    referenciadosViewModel.horarioDisponibleCarga(hora)
                     expHora = false
                 })
             }
@@ -344,7 +312,7 @@ private fun SpineerHorario(referenciadosViewModel: ReferenciadosViewModel, horar
 @Composable
 private fun ButtonEnviar(referenciadosViewModel: ReferenciadosViewModel) {
     Button(
-        onClick = { referenciadosViewModel.referenciar() },
+        onClick = { referenciadosViewModel.enviar() },
         colors = ButtonDefaults.buttonColors(
             containerColor = Color.Red, contentColor = Color.White
         ),
